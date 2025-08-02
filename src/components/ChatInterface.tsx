@@ -22,7 +22,7 @@ export function ChatInterface({
   messages,
   isLoading,
   currentStep,
-  totalSteps = 8,
+  totalSteps = 9,
   onSendMessage,
   onStop,
 }: ChatInterfaceProps) {
