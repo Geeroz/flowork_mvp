@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ArrowRight, Sparkles, Clock, FileText } from 'lucide-react';
+import { ArrowUp, Sparkles, Clock, FileText } from 'lucide-react';
 
 interface LandingPageProps {
   onStartChat: (initialPrompt: string) => void;
@@ -42,24 +42,30 @@ export function LandingPage({ onStartChat }: LandingPageProps) {
               <label htmlFor="project-input" className="block text-lg font-medium mb-4 text-white">
                 What kind of creative work do you need?
               </label>
-              <div className="relative">
+              
+              {/* First Row: Input Field */}
+              <div className="mb-4">
                 <input
                   id="project-input"
                   type="text"
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
                   placeholder="e.g., I need a new website for my restaurant..."
-                  className="w-full px-6 py-4 text-lg bg-black/80 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none pr-32 placeholder:text-gray-400"
+                  className="w-full px-6 py-4 text-lg bg-black/80 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none placeholder:text-gray-400"
                   autoFocus
                 />
+              </div>
+              
+              {/* Second Row: Button */}
+              <div className="flex justify-end">
                 <Button
                   type="submit"
                   size="lg"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 px-6"
+                  className="px-6"
                   disabled={!prompt.trim()}
                 >
                   Get My Brief
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <ArrowUp className="ml-2 h-4 w-4" />
                 </Button>
               </div>
             </form>
