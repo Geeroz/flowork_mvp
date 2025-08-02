@@ -10,7 +10,7 @@ interface MarkdownMessageProps {
 
 export function MarkdownMessage({ content, className = "" }: MarkdownMessageProps) {
   return (
-    <div className={`prose prose-invert max-w-none prose-sm ${className}`}>
+    <div className={`prose prose-invert max-w-none prose-sm prose-ol:list-decimal prose-ul:list-disc ${className}`}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
@@ -70,8 +70,9 @@ export function MarkdownMessage({ content, className = "" }: MarkdownMessageProp
           p: ({ children }) => <p className="my-2 leading-relaxed">{children}</p>,
           
           // Style lists
-          ul: ({ children }) => <ul className="my-2 space-y-1">{children}</ul>,
-          ol: ({ children }) => <ol className="my-2 space-y-1">{children}</ol>,
+          ul: ({ children }) => <ul className="my-2 space-y-1 list-disc list-inside">{children}</ul>,
+          ol: ({ children }) => <ol className="my-2 space-y-1 list-decimal list-inside">{children}</ol>,
+          li: ({ children }) => <li className="text-gray-100 leading-relaxed">{children}</li>,
         }}
       >
         {content}
