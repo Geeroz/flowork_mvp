@@ -35,39 +35,6 @@ export function LandingPage({ onStartChat }: LandingPageProps) {
           </p>
         </div>
         
-        {/* Value Props */}
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
-          <Card className="border border-gray-700/30 bg-black/50 backdrop-blur">
-            <CardContent className="p-6 text-center">
-              <Clock className="w-10 h-10 text-sky-500 mx-auto mb-3" />
-              <h3 className="font-semibold mb-2 text-white">15-20 Minutes</h3>
-              <p className="text-sm text-gray-300">
-                From idea to comprehensive brief in record time
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card className="border border-gray-700/30 bg-black/50 backdrop-blur">
-            <CardContent className="p-6 text-center">
-              <Sparkles className="w-10 h-10 text-sky-500 mx-auto mb-3" />
-              <h3 className="font-semibold mb-2 text-white">AI-Guided Process</h3>
-              <p className="text-sm text-gray-300">
-                Expert questions that ensure nothing is missed
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card className="border border-gray-700/30 bg-black/50 backdrop-blur">
-            <CardContent className="p-6 text-center">
-              <FileText className="w-10 h-10 text-sky-500 mx-auto mb-3" />
-              <h3 className="font-semibold mb-2 text-white">Professional Output</h3>
-              <p className="text-sm text-gray-300">
-                Ready to share with stakeholders or vendors
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-        
         {/* Main Input */}
         <Card className="shadow-2xl border border-gray-700/30 bg-black/80 backdrop-blur">
           <CardContent className="p-8">
@@ -126,6 +93,39 @@ export function LandingPage({ onStartChat }: LandingPageProps) {
               </button>
             ))}
           </div>
+        </div>
+        
+        {/* Value Props */}
+        <div className="grid md:grid-cols-3 gap-6 mt-12">
+          <Card className="border border-gray-700/30 bg-black/50 backdrop-blur">
+            <CardContent className="p-6 text-center">
+              <Clock className="w-10 h-10 text-sky-500 mx-auto mb-3" />
+              <h3 className="font-semibold mb-2 text-white">15-20 Minutes</h3>
+              <p className="text-sm text-gray-300">
+                From idea to comprehensive brief in record time
+              </p>
+            </CardContent>
+          </Card>
+          
+          <Card className="border border-gray-700/30 bg-black/50 backdrop-blur">
+            <CardContent className="p-6 text-center">
+              <Sparkles className="w-10 h-10 text-sky-500 mx-auto mb-3" />
+              <h3 className="font-semibold mb-2 text-white">AI-Guided Process</h3>
+              <p className="text-sm text-gray-300">
+                Expert questions that ensure nothing is missed
+              </p>
+            </CardContent>
+          </Card>
+          
+          <Card className="border border-gray-700/30 bg-black/50 backdrop-blur">
+            <CardContent className="p-6 text-center">
+              <FileText className="w-10 h-10 text-sky-500 mx-auto mb-3" />
+              <h3 className="font-semibold mb-2 text-white">Professional Output</h3>
+              <p className="text-sm text-gray-300">
+                Ready to share with stakeholders or vendors
+              </p>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
