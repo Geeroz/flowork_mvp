@@ -77,15 +77,29 @@ export function useAIChat({ onBriefComplete }: UseAIChatProps = {}) {
       
       setMessages(prev => [...prev, assistantMessage]);
       
+      let isFirstChunk = true;
+      let buffer = '';
+      
       while (true) {
         const { done, value } = await reader.read();
         
         if (done) break;
         
-        const chunk = decoder.decode(value);
-        const lines = chunk.split('\n');
+        const chunk = decoder.decode(value, { stream: true });
+        buffer += chunk;
+        
+        // Log first chunk for debugging
+        if (isFirstChunk) {
+          console.log('First chunk received:', chunk);
+          isFirstChunk = false;
+        }
+        
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
         
         for (const line of lines) {
+          if (line.trim() === '') continue;
+          
           if (line.startsWith('data: ')) {
             const data = line.slice(6);
             
@@ -105,15 +119,22 @@ export function useAIChat({ onBriefComplete }: UseAIChatProps = {}) {
             try {
               const parsed = JSON.parse(data);
               if (parsed.choices?.[0]?.delta?.content) {
-                assistantMessage.content += parsed.choices[0].delta.content;
+                const content = parsed.choices[0].delta.content;
+                
+                // Log the actual content being added
+                if (assistantMessage.content === '') {
+                  console.log('First content added:', content);
+                }
+                
+                assistantMessage.content += content;
                 setMessages(prev => {
                   const newMessages = [...prev];
                   newMessages[newMessages.length - 1] = { ...assistantMessage };
                   return newMessages;
                 });
               }
-            } catch {
-              // Skip invalid JSON chunks
+            } catch (e) {
+              console.error('Failed to parse chunk:', data, e);
             }
           }
         }
