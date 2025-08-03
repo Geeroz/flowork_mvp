@@ -107,8 +107,9 @@ export function useAIChat({ onBriefComplete }: UseAIChatProps = {}) {
               conversationRef.current.messages.push(assistantMessage);
               setCurrentStep(prev => prev + 1);
               
-              // Check if interview is complete
-              if (assistantMessage.content.includes('email')) {
+              // Check if interview is complete (looking for contact collection)
+              if (assistantMessage.content.includes('Your brief will be sent to') || 
+                  assistantMessage.content.includes('FLOWORK Project Manager will reach out')) {
                 conversationRef.current.status = 'completed';
                 conversationRef.current.completedAt = new Date();
                 onBriefComplete?.(conversationRef.current);
