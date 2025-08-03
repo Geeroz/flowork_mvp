@@ -73,12 +73,12 @@ export function LandingPage({ onStartChat }: LandingPageProps) {
                   }`}>
                     Get My Brief
                   </span>
-                  <div className={`ml-2 w-6 h-6 rounded-full flex items-center justify-center transition-all duration-200 ${
+                  <div className={`ml-2 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
                     prompt.trim() 
                       ? 'bg-gray-300 hover:bg-white' 
                       : 'bg-gray-600'
                   }`}>
-                    <ArrowUp className={`h-3 w-3 transition-colors duration-200 ${
+                    <ArrowUp className={`h-4 w-4 transition-colors duration-200 ${
                       prompt.trim() ? 'text-black' : 'text-gray-800'
                     }`} />
                   </div>
