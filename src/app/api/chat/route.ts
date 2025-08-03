@@ -41,8 +41,44 @@ export async function POST(request: NextRequest) {
     );
     
     if (!response.ok) {
-      const error = await response.text();
-      console.error('Azure OpenAI error:', error);
+      const errorText = await response.text();
+      console.error('Azure OpenAI error:', errorText);
+      
+      // Check if it's a content filter false positive (common with Thai language)
+      try {
+        const errorData = JSON.parse(errorText);
+        if (errorData.error?.innererror?.code === 'ResponsibleAIPolicyViolation') {
+          // Return a helpful message for content filter issues
+          const fallbackResponse = {
+            choices: [{
+              delta: {
+                content: "I apologize, but there seems to be a technical issue processing Thai language at the moment. Please try again in English, or you can describe your project needs and I'll help you create your brief.\n\nIf you prefer to continue in Thai, please try rephrasing your message or contact our support team for assistance."
+              },
+              finish_reason: null
+            }]
+          };
+          
+          const encoder = new TextEncoder();
+          const stream = new ReadableStream({
+            start(controller) {
+              controller.enqueue(encoder.encode(`data: ${JSON.stringify(fallbackResponse)}\n\n`));
+              controller.enqueue(encoder.encode('data: [DONE]\n\n'));
+              controller.close();
+            }
+          });
+          
+          return new Response(stream, {
+            headers: {
+              'Content-Type': 'text/event-stream',
+              'Cache-Control': 'no-cache',
+              'Connection': 'keep-alive',
+            },
+          });
+        }
+      } catch {
+        // If error parsing fails, continue with original error
+      }
+      
       throw new Error('Failed to get AI response');
     }
     
