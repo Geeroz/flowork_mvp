@@ -1,4 +1,4 @@
-# INSTANCEWORK Brief Generator MVP
+# FLOWORK Brief Generator MVP
 
 An AI-powered project discovery tool that generates comprehensive creative briefs through conversational interviews.
 
@@ -111,4 +111,4 @@ The application follows a conversational flow:
 
 ## License
 
-Proprietary - INSTANCEWORK
+Proprietary - FLOWORK

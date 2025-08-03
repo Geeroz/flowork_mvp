@@ -118,7 +118,7 @@ export function LandingPage({ onStartChat }: LandingPageProps) {
             AI-powered discovery interviews that capture every detail
           </p>
           <p className="text-sm text-gray-400">
-            By INSTANCEWORK - Thailand&apos;s Premium Creative Talent Marketplace
+            By FLOWORK - Thailand&apos;s Premium Creative Talent Marketplace
           </p>
         </div>
 

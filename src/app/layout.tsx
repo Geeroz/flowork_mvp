@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "INSTANCEWORK Brief Generator - AI-Powered Project Discovery",
+  title: "FLOWORK Brief Generator - AI-Powered Project Discovery",
   description: "Create comprehensive project briefs in minutes with AI-guided interviews. Professional creative briefs for your business needs.",
 };
 
