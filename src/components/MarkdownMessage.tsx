@@ -70,9 +70,9 @@ export function MarkdownMessage({ content, className = "" }: MarkdownMessageProp
           p: ({ children }) => <p className="my-2 leading-relaxed">{children}</p>,
           
           // Style lists
-          ul: ({ children }) => <ul className="my-2 space-y-1 list-disc list-inside">{children}</ul>,
-          ol: ({ children }) => <ol className="my-2 space-y-1 list-decimal list-inside">{children}</ol>,
-          li: ({ children }) => <li className="text-gray-100 leading-relaxed">{children}</li>,
+          ul: ({ children }) => <ul className="my-2 space-y-1 list-disc list-inside pl-4">{children}</ul>,
+          ol: ({ children }) => <ol className="my-2 space-y-1 list-decimal list-inside pl-4">{children}</ol>,
+          li: ({ children }) => <li className="text-gray-100 leading-relaxed marker:text-sky-400 marker:font-semibold">{children}</li>,
         }}
       >
         {content}
