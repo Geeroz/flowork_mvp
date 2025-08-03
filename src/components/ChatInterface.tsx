@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { Send, Loader2, User, Bot } from 'lucide-react';
+import { ArrowUp, Loader2, User, Bot } from 'lucide-react';
 import { ChatMessage } from '@/types';
 import { cn } from '@/lib/utils';
 import { MarkdownMessage } from '@/components/MarkdownMessage';
@@ -136,36 +136,67 @@ export function ChatInterface({
         
         
         {/* Input */}
-        <form onSubmit={handleSubmit}>
-          <div className="flex gap-2 items-end">
-            <textarea
-              ref={inputRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="Type your answer... (Shift+Enter for new line)"
-              className="flex-1 px-4 py-3 bg-black/80 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none placeholder:text-gray-400 resize-none min-h-[48px] max-h-32"
-              disabled={isLoading}
-              rows={1}
-              style={{
-                height: 'auto',
-                minHeight: '48px',
-              }}
-              onInput={(e) => {
-                const target = e.target as HTMLTextAreaElement;
-                target.style.height = 'auto';
-                target.style.height = Math.min(target.scrollHeight, 128) + 'px';
-              }}
-            />
-            <Button type="submit" size="lg" disabled={!input.trim() || isLoading}>
-              {isLoading ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
-              ) : (
-                <Send className="w-5 h-5" />
-              )}
-            </Button>
-          </div>
-        </form>
+        <Card className="border border-gray-700/30 bg-black/80 backdrop-blur">
+          <CardContent className="p-4">
+            <form onSubmit={handleSubmit}>
+              {/* First Row: Input Field */}
+              <div className="mb-4">
+                <textarea
+                  ref={inputRef}
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Type your answer... (Shift+Enter for new line)"
+                  className="w-full px-6 py-4 text-lg bg-black/80 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none placeholder:text-gray-400 resize-none min-h-[56px] max-h-32"
+                  disabled={isLoading}
+                  rows={1}
+                  style={{
+                    height: 'auto',
+                    minHeight: '56px',
+                  }}
+                  onInput={(e) => {
+                    const target = e.target as HTMLTextAreaElement;
+                    target.style.height = 'auto';
+                    target.style.height = Math.min(target.scrollHeight, 128) + 'px';
+                  }}
+                />
+              </div>
+              
+              {/* Second Row: Button */}
+              <div className="flex justify-end">
+                <Button
+                  type="submit"
+                  size="lg"
+                  className={`px-2 transition-all duration-200 ${
+                    input.trim() && !isLoading
+                      ? 'hover:bg-sky-600 hover:border-sky-600' 
+                      : 'opacity-50 cursor-not-allowed'
+                  }`}
+                  disabled={!input.trim() || isLoading}
+                >
+                  <span className={`transition-colors duration-200 ${
+                    input.trim() && !isLoading ? 'text-white' : 'text-gray-300'
+                  }`}>
+                    {isLoading ? 'Sending...' : 'Send'}
+                  </span>
+                  <div className={`ml-2 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
+                    input.trim() && !isLoading
+                      ? 'bg-white hover:bg-white' 
+                      : 'bg-gray-400'
+                  }`}>
+                    {isLoading ? (
+                      <Loader2 className="h-4 w-4 animate-spin text-gray-800" />
+                    ) : (
+                      <ArrowUp strokeWidth={3} className={`h-8 w-8 transition-colors duration-200 ${
+                        input.trim() ? 'text-black' : 'text-gray-800'
+                      }`} />
+                    )}
+                  </div>
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
         
         {isLoading && onStop && (
           <div className="mt-2 text-center">
