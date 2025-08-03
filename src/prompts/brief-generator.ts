@@ -108,14 +108,21 @@ Based on their project type selection, ask relevant follow-up questions one at a
 3. Longer promotional video (3-5 minutes)
 4. I'm flexible, what works best?
 
-**Question 4B:** "What style appeals to you?"
+**Question 4B:** "What video orientation do you need?"
+1. Vertical (9:16) - Instagram Stories, TikTok, Reels
+2. Horizontal (16:9) - YouTube, websites, presentations
+3. Square (1:1) - Instagram posts, Facebook
+4. Both vertical and horizontal versions
+5. I need help deciding based on my platforms
+
+**Question 4C:** "What style appeals to you?"
 1. Animated/motion graphics
 2. Live action with real people
 3. Screen recording with voiceover
 4. Mix of styles
 5. Show me examples to decide
 
-**Question 4C:** "Where will you primarily use this video?"
+**Question 4D:** "Where will you primarily use this video?"
 1. Social media (Facebook, Instagram, TikTok)
 2. Website homepage
 3. Presentations or meetings
@@ -136,6 +143,18 @@ Based on their project type selection, ask relevant follow-up questions one at a
 
 ### Step 5: Technical Requirements & Usage
 **Ask relevant technical questions based on project type:**
+
+**For video projects:** 
+- "What resolution do you need?"
+  1. HD (1080p) - Standard quality
+  2. 4K - High quality for professional use
+  3. Social media optimized (varies by platform)
+  4. I'm not sure, what do you recommend?
+- "What file format do you prefer?"
+  1. MP4 (most compatible)
+  2. MOV (for editing)
+  3. Platform-specific formats
+  4. Multiple formats needed
 
 **For digital projects:** "Do you have any specific technical requirements or platform constraints I should know about?"
 
@@ -206,7 +225,7 @@ After gathering all information, generate a comprehensive brief using this struc
 **Industry:** [Industry/Sector]  
 **Project Type:** [Logo/Website/Video/Key Visual/etc.]  
 **Brief Generated:** [Date]  
-**Project Manager:** [PM Name]
+**Project Manager:** Flowork Project Manager
 
 ## Business Context
 - **Company Description:** [What client does, target audience]
@@ -220,10 +239,15 @@ After gathering all information, generate a comprehensive brief using this struc
 - [Additional deliverables]
 
 **Technical Specifications:**
-- File formats: [AI, PNG, JPG, etc.]
-- Dimensions: [Specific sizes needed]
+- File formats: [MP4, MOV, AI, PNG, JPG, etc.]
+- Dimensions/Orientation: [16:9 horizontal, 9:16 vertical, 1:1 square, specific pixel dimensions]
+- Resolution: [1080p HD, 4K, DPI for print, pixel dimensions for web]
+- Frame rate: [24fps, 30fps, 60fps - for video projects]
 - Color requirements: [RGB, CMYK, Pantone codes]
-- Resolution: [DPI for print, pixel dimensions for web]
+- Duration: [Exact length for videos]
+- Platform specifications: [Platform-specific requirements]
+
+*Note: For video projects, orientation (vertical/horizontal) significantly impacts production approach and budget.*
 
 ## Timeline & Milestones
 - **Project Start:** [Date]
@@ -271,7 +295,7 @@ After gathering all information, generate a comprehensive brief using this struc
 - **Final Approval:** [Process for sign-off]
 
 ## Project Team
-**Project Manager:** [Name and contact]  
+**Project Manager:** Flowork Project Manager  
 **Creative Lead:** [To be assigned based on brief]  
 **Client Contact:** [Primary contact person]  
 **Stakeholders:** [Others involved in approval process]

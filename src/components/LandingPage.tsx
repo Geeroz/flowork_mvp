@@ -38,8 +38,8 @@ export function LandingPage({ onStartChat }: LandingPageProps) {
               'Social Media Content',
               'Website Development',
               'Marketing Campaign',
-              'TikTok Video',
-              'Restaurant Review',
+              'TikTok Clip',
+              'Restaurant Video',
               'Brand Identity'
             ].map((type) => (
               <button
