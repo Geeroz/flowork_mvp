@@ -61,11 +61,27 @@ export function LandingPage({ onStartChat }: LandingPageProps) {
                 <Button
                   type="submit"
                   size="lg"
-                  className="px-6"
+                  className={`px-6 transition-all duration-200 ${
+                    prompt.trim() 
+                      ? 'hover:bg-sky-600 hover:border-sky-600' 
+                      : 'opacity-50 cursor-not-allowed'
+                  }`}
                   disabled={!prompt.trim()}
                 >
-                  Get My Brief
-                  <ArrowUp className="ml-2 h-4 w-4" />
+                  <span className={`transition-colors duration-200 ${
+                    prompt.trim() ? 'text-white' : 'text-gray-400'
+                  }`}>
+                    Get My Brief
+                  </span>
+                  <div className={`ml-2 w-6 h-6 rounded-full flex items-center justify-center transition-all duration-200 ${
+                    prompt.trim() 
+                      ? 'bg-gray-300 hover:bg-white' 
+                      : 'bg-gray-600'
+                  }`}>
+                    <ArrowUp className={`h-3 w-3 transition-colors duration-200 ${
+                      prompt.trim() ? 'text-black' : 'text-gray-800'
+                    }`} />
+                  </div>
                 </Button>
               </div>
             </form>
