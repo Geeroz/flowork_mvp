@@ -5,6 +5,49 @@ All notable changes to the FLOWORK AI Brief Generator will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2025-01-04
+
+### Added
+- **Modular System Prompt Architecture**
+  - Split system prompt into 4 independent modules for better maintainability
+  - `base-prompt.ts`: Core rules and language support
+  - `interview-questions.ts`: Streamlined 7-step interview process
+  - `brief-template.ts`: Brief generation format
+  - `contact-collection.ts`: Mandatory email/phone collection
+  
+- **Streamlined Interview Experience**
+  - Reduced interview from 9 to 7 focused steps
+  - Strict one-question-at-a-time rule enforcement
+  - 80%+ questions converted to multiple choice format
+  - Enhanced Thai phone number parsing (0818088711 format)
+  - Maintained technical specifications for clear deliverables
+
+### Improved
+- **User Experience**
+  - Faster interview completion (7 vs 15+ questions previously)
+  - Reduced typing with multiple choice options
+  - Clear numbered list format (1. 2. 3.) for all choices
+  - Simplified business context collection (1 question vs 3)
+  
+- **System Maintainability**
+  - Modular architecture prevents breaking changes when editing one component
+  - Each function (interview, brief, contact) can be updated independently
+  - Enhanced debugging with detailed conversation completion logging
+  - Improved contact information parsing reliability
+
+### Fixed
+- **Email Sending Issues**
+  - Fixed conversation completion detection with new modular prompt
+  - Added proper trigger phrases for email sending after contact collection
+  - Enhanced contact parsing for Thai mobile numbers
+  - Resolved issue where emails weren't sent in new prompt system
+
+### Changed
+- Interview process reduced from 9 to 7 essential steps
+- UI progress indicator updated to show 7 steps instead of 10
+- Contact collection now explicitly requires BOTH email AND phone number
+- Technical requirements gathering maintained but streamlined
+
 ## [1.3.1] - 2025-01-04
 
 ### Added
