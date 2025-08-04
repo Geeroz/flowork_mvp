@@ -2,6 +2,7 @@
 
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import './markdown-styles.css';
 
 interface MarkdownMessageProps {
   content: string;
@@ -10,7 +11,7 @@ interface MarkdownMessageProps {
 
 export function MarkdownMessage({ content, className = "" }: MarkdownMessageProps) {
   return (
-    <div className={`prose prose-invert max-w-none prose-sm prose-ol:list-decimal prose-ul:list-disc ${className}`}>
+    <div className={`markdown-content prose prose-invert max-w-none prose-sm ${className}`}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
@@ -70,9 +71,21 @@ export function MarkdownMessage({ content, className = "" }: MarkdownMessageProp
           p: ({ children }) => <p className="my-2 leading-relaxed">{children}</p>,
           
           // Style lists
-          ul: ({ children }) => <ul className="my-2 space-y-1 list-disc list-inside pl-4">{children}</ul>,
-          ol: ({ children }) => <ol className="my-2 space-y-1 list-decimal list-inside pl-4">{children}</ol>,
-          li: ({ children }) => <li className="text-gray-100 leading-relaxed marker:text-sky-400 marker:font-semibold">{children}</li>,
+          ul: ({ children }) => (
+            <ul className="my-2 space-y-1 pl-6 list-disc">
+              {children}
+            </ul>
+          ),
+          ol: ({ children }) => (
+            <ol className="my-2 space-y-1">
+              {children}
+            </ol>
+          ),
+          li: ({ children }) => (
+            <li className="text-gray-100 leading-relaxed">
+              {children}
+            </li>
+          ),
         }}
       >
         {content}

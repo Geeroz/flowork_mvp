@@ -1,0 +1,50 @@
+/* Fix for numbered lists in markdown */
+.markdown-content ol {
+  counter-reset: list-counter;
+  list-style: none;
+  padding-left: 0;
+  margin: 0.5rem 0;
+}
+
+.markdown-content ol > li {
+  counter-increment: list-counter;
+  position: relative;
+  padding-left: 2rem;
+  margin: 0.25rem 0;
+}
+
+.markdown-content ol > li::before {
+  content: counter(list-counter) ". ";
+  position: absolute;
+  left: 0;
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+/* Fix for nested numbered lists */
+.markdown-content ol ol {
+  counter-reset: nested-counter;
+  margin-left: 1rem;
+}
+
+.markdown-content ol ol > li {
+  counter-increment: nested-counter;
+}
+
+.markdown-content ol ol > li::before {
+  content: counter(nested-counter, lower-alpha) ". ";
+}
+
+/* Ensure bullet lists work properly too */
+.markdown-content ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+}
+
+.markdown-content ul > li {
+  position: relative;
+}
+
+.markdown-content ul > li::marker {
+  color: #38bdf8;
+}

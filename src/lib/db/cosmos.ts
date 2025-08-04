@@ -32,36 +32,49 @@ let conversationsContainer: Container;
 let usersContainer: Container;
 let briefsContainer: Container;
 
+// Track initialization state
+let isInitialized = false;
+let initializationPromise: Promise<void> | null = null;
+
 // Initialize database and containers
 async function initializeCosmosDB() {
+  if (isInitialized) return;
+  
   try {
-    // Create database if it doesn't exist
+    console.log('🔄 Initializing Cosmos DB...');
+    
+    // Create database
     const { database: db } = await client.databases.createIfNotExists({
       id: databaseId,
     });
     database = db;
+    console.log('✅ Database ready:', databaseId);
 
     // Create conversations container
     const { container: conversations } = await database.containers.createIfNotExists({
       id: containerIds.conversations,
-      partitionKey: '/userId',
+      partitionKey: { paths: ['/userId'] },
     });
     conversationsContainer = conversations;
+    console.log('✅ Conversations container ready');
 
     // Create users container
     const { container: users } = await database.containers.createIfNotExists({
       id: containerIds.users,
-      partitionKey: '/email',
+      partitionKey: { paths: ['/email'] },
     });
     usersContainer = users;
+    console.log('✅ Users container ready');
 
     // Create briefs container
     const { container: briefs } = await database.containers.createIfNotExists({
       id: containerIds.briefs,
-      partitionKey: '/conversationId',
+      partitionKey: { paths: ['/conversationId'] },
     });
     briefsContainer = briefs;
+    console.log('✅ Briefs container ready');
 
+    isInitialized = true;
     console.log('✅ Cosmos DB initialized successfully');
   } catch (error) {
     console.error('❌ Error initializing Cosmos DB:', error);
@@ -69,28 +82,27 @@ async function initializeCosmosDB() {
   }
 }
 
-// Initialize on module load
-initializeCosmosDB().catch(console.error);
+// Ensure single initialization
+async function ensureInitialized() {
+  if (!initializationPromise) {
+    initializationPromise = initializeCosmosDB();
+  }
+  await initializationPromise;
+}
 
 // Export getters to ensure containers are initialized
 export async function getConversationsContainer(): Promise<Container> {
-  if (!conversationsContainer) {
-    await initializeCosmosDB();
-  }
+  await ensureInitialized();
   return conversationsContainer;
 }
 
 export async function getUsersContainer(): Promise<Container> {
-  if (!usersContainer) {
-    await initializeCosmosDB();
-  }
+  await ensureInitialized();
   return usersContainer;
 }
 
 export async function getBriefsContainer(): Promise<Container> {
-  if (!briefsContainer) {
-    await initializeCosmosDB();
-  }
+  await ensureInitialized();
   return briefsContainer;
 }
 

@@ -51,33 +51,46 @@ export async function updateConversation(
 export async function completeConversation(
   id: string,
   brief: GeneratedBrief,
-  contactInfo: ContactInfo
+  contactInfo: ContactInfo,
+  messages: ChatMessage[] = []
 ): Promise<ConversationDocument> {
   try {
     // First, check if user exists or create new one
     const user = await findOrCreateUser(contactInfo.email, contactInfo.phone);
     
-    // Update conversation with completion data
-    const updates: Partial<ConversationDocument> = {
+    const container = await getConversationsContainer();
+    
+    // Create new conversation document
+    const conversation: ConversationDocument = {
+      id,
       userId: user.id,
+      messages,
       brief,
       contactInfo,
       status: 'completed',
+      language: 'en',
+      createdAt: new Date().toISOString(),
       completedAt: new Date().toISOString(),
     };
     
-    const conversation = await updateConversation(id, updates);
-    
-    // Update user's conversation list
-    if (!user.conversationIds.includes(id)) {
-      await updateUser(user.id, {
-        conversationIds: [...user.conversationIds, id],
-        totalBriefs: user.totalBriefs + 1,
-        lastActiveAt: new Date().toISOString(),
-      });
+    // Try to create or update the conversation
+    try {
+      const { resource } = await container.items.upsert(conversation);
+      
+      // Update user's conversation list
+      if (!user.conversationIds.includes(id)) {
+        await updateUser(user.id, {
+          conversationIds: [...user.conversationIds, id],
+          totalBriefs: user.totalBriefs + 1,
+          lastActiveAt: new Date().toISOString(),
+        }, user.email);
+      }
+      
+      return resource!;
+    } catch (error) {
+      console.error('Error upserting conversation:', error);
+      throw error;
     }
-    
-    return conversation;
   } catch (error) {
     console.error('Error completing conversation:', error);
     throw error;
@@ -111,7 +124,7 @@ export async function findOrCreateUser(
           name: name || existingUser.name,
           company: company || existingUser.company,
           lastActiveAt: new Date().toISOString(),
-        });
+        }, existingUser.email);
       }
       return existingUser;
     }
@@ -139,11 +152,12 @@ export async function findOrCreateUser(
 
 export async function updateUser(
   id: string,
-  updates: Partial<UserDocument>
+  updates: Partial<UserDocument>,
+  userEmail: string
 ): Promise<UserDocument> {
   try {
     const container = await getUsersContainer();
-    const { resource } = await container.item(id, updates.email?.toLowerCase()).read<UserDocument>();
+    const { resource } = await container.item(id, userEmail.toLowerCase()).read<UserDocument>();
     
     if (!resource) {
       throw { code: 404 };

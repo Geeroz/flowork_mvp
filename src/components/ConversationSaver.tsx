@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import { Conversation } from '@/types';
 import { parseBriefFromMessages, parseContactInfoFromMessages } from '@/lib/utils/brief-parser';
 
@@ -23,7 +23,15 @@ export function ConversationSaver({
   onSaveComplete,
   onSaveError 
 }: ConversationSaverProps) {
+  // Track if we've already saved to prevent duplicates
+  const hasSavedRef = useRef(false);
   const saveConversation = useCallback(async () => {
+    // Prevent duplicate saves
+    if (hasSavedRef.current) {
+      console.log('Conversation already saved, skipping duplicate save');
+      return;
+    }
+
     try {
       // Parse brief and contact info from messages
       const brief = parseBriefFromMessages(conversation.messages);
@@ -32,6 +40,9 @@ export function ConversationSaver({
       if (!brief || !contactInfo) {
         throw new Error('Could not extract brief or contact information from conversation');
       }
+
+      // Mark as saved before making the request to prevent race conditions
+      hasSavedRef.current = true;
 
       // Send to API
       const response = await fetch('/api/save-conversation', {
@@ -55,17 +66,23 @@ export function ConversationSaver({
       const result: SaveResult = await response.json();
       onSaveComplete?.(result);
     } catch (error) {
+      // Reset the flag on error so it can be retried
+      hasSavedRef.current = false;
       console.error('Error saving conversation:', error);
       onSaveError?.(error instanceof Error ? error : new Error('Unknown error'));
     }
   }, [conversation, onSaveComplete, onSaveError]);
 
   useEffect(() => {
-    // Automatically save when conversation is completed
+    // Automatically save when conversation is completed AND we have contact info
     if (conversation.status === 'completed') {
-      saveConversation();
+      // Check if we actually have contact info before saving
+      const contactInfo = parseContactInfoFromMessages(conversation.messages);
+      if (contactInfo && contactInfo.email) {
+        saveConversation();
+      }
     }
-  }, [conversation.status, saveConversation]);
+  }, [conversation.status, conversation.messages, saveConversation]);
 
   return null; // This is a non-visual component
 }

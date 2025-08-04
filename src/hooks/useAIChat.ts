@@ -107,12 +107,23 @@ export function useAIChat({ onBriefComplete }: UseAIChatProps = {}) {
               conversationRef.current.messages.push(assistantMessage);
               setCurrentStep(prev => prev + 1);
               
-              // Check if interview is complete (looking for contact collection)
+              // Check if interview is complete (after user provides contact info)
+              // Mark as completed when AI confirms receiving the contact info
               if (assistantMessage.content.includes('Your brief will be sent to') || 
+                  assistantMessage.content.includes('Thank you! Your brief will be sent') ||
                   assistantMessage.content.includes('FLOWORK Project Manager will reach out')) {
-                conversationRef.current.status = 'completed';
-                conversationRef.current.completedAt = new Date();
-                onBriefComplete?.(conversationRef.current);
+                // Only mark complete if this is AFTER contact collection
+                const hasContactRequest = conversationRef.current.messages.some(msg => 
+                  msg.role === 'assistant' && 
+                  (msg.content.includes('Please share your email') || 
+                   msg.content.includes('What\'s the best email'))
+                );
+                
+                if (hasContactRequest) {
+                  conversationRef.current.status = 'completed';
+                  conversationRef.current.completedAt = new Date();
+                  onBriefComplete?.(conversationRef.current);
+                }
               }
               break;
             }

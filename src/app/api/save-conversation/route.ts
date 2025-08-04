@@ -34,11 +34,39 @@ export async function POST(request: NextRequest) {
     const { completeConversation, createBrief } = await import('@/lib/db/services');
     const { sendBriefEmail } = await import('@/lib/email/azure-email');
 
+    // Check if conversation already exists and email was already sent
+    const { getConversationsContainer } = await import('@/lib/db/cosmos');
+    const container = await getConversationsContainer();
+    
+    try {
+      const query = {
+        query: 'SELECT * FROM c WHERE c.id = @id',
+        parameters: [{ name: '@id', value: conversationId }],
+      };
+      
+      const { resources } = await container.items.query(query).fetchAll();
+      
+      if (resources.length > 0 && resources[0].emailSentAt) {
+        // Email already sent, don't send again
+        return NextResponse.json({
+          success: true,
+          conversationId: resources[0].id,
+          briefId: resources[0].id,
+          emailStatus: 'already_sent',
+          message: 'Brief already exists and email was previously sent',
+        });
+      }
+    } catch (checkError) {
+      // If check fails, continue with save process
+      console.log('Could not check existing conversation, proceeding with save');
+    }
+
     // Save conversation to database
     const conversation = await completeConversation(
       conversationId,
       brief as GeneratedBrief,
-      contactInfo as ContactInfo
+      contactInfo as ContactInfo,
+      messages
     );
 
     // Create brief document
@@ -56,11 +84,12 @@ export async function POST(request: NextRequest) {
         conversation.id
       );
 
-      // Update conversation with email sent status
-      const { updateConversation } = await import('@/lib/db/services');
-      await updateConversation(conversation.id, {
+      // Mark email as sent in the conversation
+      const updatedConversation = {
+        ...conversation,
         emailSentAt: new Date().toISOString(),
-      });
+      };
+      await container.items.upsert(updatedConversation);
 
       return NextResponse.json({
         success: true,

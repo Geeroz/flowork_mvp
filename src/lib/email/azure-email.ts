@@ -1,17 +1,22 @@
 import { EmailClient, EmailMessage } from '@azure/communication-email';
 import { GeneratedBrief, ContactInfo } from '@/lib/db/models';
 
-// Validate environment variables
-if (!process.env.AZURE_COMMUNICATION_CONNECTION_STRING || !process.env.AZURE_COMMUNICATION_SENDER_EMAIL) {
+// Validate environment variables and initialize client
+let emailClient: EmailClient | null = null;
+let senderAddress = '';
+
+if (process.env.AZURE_COMMUNICATION_CONNECTION_STRING) {
+  emailClient = new EmailClient(process.env.AZURE_COMMUNICATION_CONNECTION_STRING);
+  senderAddress = process.env.AZURE_COMMUNICATION_SENDER_EMAIL || 'DoNotReply@flowork.azurecomm.net';
+} else if (process.env.AZURE_COMMUNICATION_KEY && process.env.AZURE_COMMUNICATION_EMAIL_ENDPOINT) {
+  // Alternative initialization with key
+  emailClient = new EmailClient(process.env.AZURE_COMMUNICATION_EMAIL_ENDPOINT, {
+    key: process.env.AZURE_COMMUNICATION_KEY
+  } as any);
+  senderAddress = process.env.AZURE_COMMUNICATION_SENDER_EMAIL || 'DoNotReply@flowork.azurecomm.net';
+} else {
   console.warn('Azure Communication Services environment variables are not configured');
 }
-
-// Initialize Email Client
-const emailClient = process.env.AZURE_COMMUNICATION_CONNECTION_STRING
-  ? new EmailClient(process.env.AZURE_COMMUNICATION_CONNECTION_STRING)
-  : null;
-
-const senderAddress = process.env.AZURE_COMMUNICATION_SENDER_EMAIL || 'noreply@flowork.com';
 
 // Email sending function
 export async function sendBriefEmail(
