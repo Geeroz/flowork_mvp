@@ -111,15 +111,19 @@ export function useAIChat({ onBriefComplete }: UseAIChatProps = {}) {
               // Mark as completed when AI confirms receiving the contact info
               if (assistantMessage.content.includes('Your brief will be sent to') || 
                   assistantMessage.content.includes('Thank you! Your brief will be sent') ||
-                  assistantMessage.content.includes('FLOWORK Project Manager will reach out')) {
+                  assistantMessage.content.includes('FLOWORK Project Manager will reach out') ||
+                  assistantMessage.content.includes('Perfect! I have your contact information')) {
                 // Only mark complete if this is AFTER contact collection
                 const hasContactRequest = conversationRef.current.messages.some(msg => 
                   msg.role === 'assistant' && 
-                  (msg.content.includes('Please share your email') || 
+                  (msg.content.includes('Please provide your email address and phone number') || 
+                   msg.content.includes('I\'ll need your contact information') ||
+                   msg.content.includes('Please share your email') || 
                    msg.content.includes('What\'s the best email'))
                 );
                 
                 if (hasContactRequest) {
+                  console.log('Marking conversation as completed - contact info collected');
                   conversationRef.current.status = 'completed';
                   conversationRef.current.completedAt = new Date();
                   onBriefComplete?.(conversationRef.current);

@@ -347,13 +347,25 @@ export function parseContactInfoFromMessages(messages: ChatMessage[]): ContactIn
       }
     }
 
-    // Extract phone - more flexible approach
+    // Extract phone - handle Thai format like 0818088711
     if (!phone) {
-      // Look for phone numbers without requiring specific keywords
-      const phoneMatch = originalContent.match(/[\+]?[\d\s\-\(\)]{10,}/);
-      if (phoneMatch && phoneMatch[0].replace(/\D/g, '').length >= 9) {
-        phone = phoneMatch[0].trim();
-        console.log('Found phone:', phone);
+      // Look for Thai mobile numbers (starting with 0) or international format
+      const phonePatterns = [
+        /0[0-9]{8,9}/, // Thai mobile: 0818088711
+        /\+66[0-9]{8,9}/, // International Thai: +66818088711
+        /[\+]?[\d\s\-\(\)]{10,}/ // General international format
+      ];
+      
+      for (const pattern of phonePatterns) {
+        const phoneMatch = originalContent.match(pattern);
+        if (phoneMatch) {
+          const cleanPhone = phoneMatch[0].replace(/\D/g, '');
+          if (cleanPhone.length >= 8) { // At least 8 digits for valid phone
+            phone = phoneMatch[0].trim();
+            console.log('Found phone:', phone);
+            break;
+          }
+        }
       }
     }
 

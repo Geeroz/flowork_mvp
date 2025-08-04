@@ -80,6 +80,10 @@ export function ConversationSaver({
 
   useEffect(() => {
     console.log('ConversationSaver useEffect - Status:', conversation.status, 'Messages:', conversation.messages.length);
+    console.log('ConversationSaver: Last 3 messages:', conversation.messages.slice(-3).map(m => ({
+      role: m.role, 
+      content: m.content.slice(0, 100) + (m.content.length > 100 ? '...' : '')
+    })));
     
     // Automatically save when conversation is completed AND we have contact info
     if (conversation.status === 'completed') {
@@ -93,6 +97,8 @@ export function ConversationSaver({
         saveConversation();
       } else {
         console.log('ConversationSaver: No valid contact info found, not saving');
+        console.log('ConversationSaver: All user messages for debugging:', 
+          conversation.messages.filter(m => m.role === 'user').map(m => m.content));
       }
     }
   }, [conversation.status, conversation.messages, saveConversation]);
