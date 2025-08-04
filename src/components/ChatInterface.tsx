@@ -7,7 +7,7 @@ import { Progress } from '@/components/ui/progress';
 import { ArrowUp, Loader2, User, Bot } from 'lucide-react';
 import { ChatMessage } from '@/types';
 import { cn } from '@/lib/utils';
-import { MarkdownMessage } from '@/components/MarkdownMessage';
+import { SmartMessage } from '@/components/SmartMessage';
 
 interface ChatInterfaceProps {
   messages: ChatMessage[];
@@ -104,7 +104,7 @@ export function ChatInterface({
                     )}
                   >
                     {message.role === 'assistant' ? (
-                      <MarkdownMessage content={message.content} />
+                      <SmartMessage content={message.content} />
                     ) : (
                       <p className="whitespace-pre-wrap">{message.content}</p>
                     )}

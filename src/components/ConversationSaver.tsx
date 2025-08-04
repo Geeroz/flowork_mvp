@@ -34,11 +34,16 @@ export function ConversationSaver({
 
     try {
       // Parse brief and contact info from messages
+      console.log('ConversationSaver: Starting to parse brief and contact info');
       const brief = parseBriefFromMessages(conversation.messages);
       const contactInfo = parseContactInfoFromMessages(conversation.messages);
 
+      console.log('ConversationSaver: Brief parsed:', !!brief);
+      console.log('ConversationSaver: Contact info parsed:', !!contactInfo, contactInfo);
+
       if (!brief || !contactInfo) {
-        throw new Error('Could not extract brief or contact information from conversation');
+        console.error('ConversationSaver: Missing data - Brief:', !!brief, 'Contact:', !!contactInfo);
+        throw new Error(`Could not extract ${!brief ? 'brief' : 'contact information'} from conversation`);
       }
 
       // Mark as saved before making the request to prevent race conditions
@@ -74,12 +79,20 @@ export function ConversationSaver({
   }, [conversation, onSaveComplete, onSaveError]);
 
   useEffect(() => {
+    console.log('ConversationSaver useEffect - Status:', conversation.status, 'Messages:', conversation.messages.length);
+    
     // Automatically save when conversation is completed AND we have contact info
     if (conversation.status === 'completed') {
+      console.log('ConversationSaver: Conversation completed, checking for contact info');
       // Check if we actually have contact info before saving
       const contactInfo = parseContactInfoFromMessages(conversation.messages);
+      console.log('ConversationSaver: Contact info check result:', contactInfo);
+      
       if (contactInfo && contactInfo.email) {
+        console.log('ConversationSaver: Contact info found, triggering save');
         saveConversation();
+      } else {
+        console.log('ConversationSaver: No valid contact info found, not saving');
       }
     }
   }, [conversation.status, conversation.messages, saveConversation]);

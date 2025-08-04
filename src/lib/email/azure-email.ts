@@ -1,5 +1,6 @@
 import { EmailClient, EmailMessage } from '@azure/communication-email';
 import { GeneratedBrief, ContactInfo } from '@/lib/db/models';
+import { generateHTMLBrief } from '@/lib/templates/html-brief-template';
 
 // Validate environment variables and initialize client
 let emailClient: EmailClient | null = null;
@@ -12,7 +13,7 @@ if (process.env.AZURE_COMMUNICATION_CONNECTION_STRING) {
   // Alternative initialization with key
   emailClient = new EmailClient(process.env.AZURE_COMMUNICATION_EMAIL_ENDPOINT, {
     key: process.env.AZURE_COMMUNICATION_KEY
-  } as any);
+  } as { key: string });
   senderAddress = process.env.AZURE_COMMUNICATION_SENDER_EMAIL || 'DoNotReply@flowork.azurecomm.net';
 } else {
   console.warn('Azure Communication Services environment variables are not configured');
@@ -30,8 +31,8 @@ export async function sendBriefEmail(
   }
 
   try {
-    // Generate email content
-    const htmlContent = generateBriefEmailHtml(brief, conversationId);
+    // Generate email content using the professional HTML template
+    const htmlContent = generateEmailWithBrief(brief, conversationId);
     const plainTextContent = generateBriefEmailPlainText(brief);
 
     const emailMessage: EmailMessage = {
@@ -60,7 +61,49 @@ export async function sendBriefEmail(
   }
 }
 
-// Generate HTML email content
+// Generate email with HTML brief content
+function generateEmailWithBrief(brief: GeneratedBrief, conversationId: string): string {
+  const briefHtml = generateHTMLBrief(brief);
+  
+  return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your ${brief.projectType} Project Brief - FLOWORK</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+    <!-- Email Header -->
+    <div style="background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%); padding: 20px; text-align: center;">
+        <div style="color: #38bdf8; font-size: 24px; font-weight: bold; margin-bottom: 8px;">FLOWORK</div>
+        <div style="color: white; font-size: 18px;">Your Creative Brief is Ready!</div>
+    </div>
+    
+    <!-- Brief Content -->
+    <div style="max-width: 800px; margin: 0 auto; background: white;">
+        ${briefHtml}
+    </div>
+    
+    <!-- Email Footer -->
+    <div style="background-color: #f8fafc; padding: 30px; text-align: center; color: #64748b; font-size: 14px;">
+        <p><strong style="color: #38bdf8;">FLOWORK</strong> - Thailand's Premium Creative Talent Marketplace</p>
+        <p>Our Project Manager will contact you within 24 hours to discuss next steps.</p>
+        <div style="margin: 20px 0;">
+            <a href="${process.env.NEXT_PUBLIC_APP_URL}/brief/${conversationId}" 
+               style="display: inline-block; background: #38bdf8; color: white; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-weight: 600;">
+                View Full Brief Online
+            </a>
+        </div>
+        <p style="margin-top: 20px; color: #94a3b8; font-size: 12px;">
+            Questions? Reply to this email or visit our website for support.
+        </p>
+    </div>
+</body>
+</html>`;
+}
+
+// Legacy HTML email content (keeping for fallback)
 function generateBriefEmailHtml(brief: GeneratedBrief, conversationId: string): string {
   return `
 <!DOCTYPE html>
@@ -180,7 +223,7 @@ function generateBriefEmailHtml(brief: GeneratedBrief, conversationId: string): 
             <p><strong>Technical Specifications:</strong></p>
             <ul>
                 ${Object.entries(brief.scopeOfWork.technicalSpecs)
-                  .filter(([_, value]) => value)
+                  .filter(([, value]) => value)
                   .map(([key, value]) => `<li>${formatTechSpecLabel(key)}: ${value}</li>`)
                   .join('')}
             </ul>
@@ -244,7 +287,7 @@ ${brief.scopeOfWork.deliverables.map(d => `- ${d}`).join('\n')}
 ${Object.keys(brief.scopeOfWork.technicalSpecs).length > 0 ? `
 Technical Specifications:
 ${Object.entries(brief.scopeOfWork.technicalSpecs)
-  .filter(([_, value]) => value)
+  .filter(([, value]) => value)
   .map(([key, value]) => `- ${formatTechSpecLabel(key)}: ${value}`)
   .join('\n')}
 ` : ''}

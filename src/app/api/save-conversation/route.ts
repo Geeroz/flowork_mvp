@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
           message: 'Brief already exists and email was previously sent',
         });
       }
-    } catch (checkError) {
+    } catch {
       // If check fails, continue with save process
       console.log('Could not check existing conversation, proceeding with save');
     }

@@ -86,7 +86,7 @@ export async function completeConversation(
         }, user.email);
       }
       
-      return resource!;
+      return resource! as unknown as ConversationDocument;
     } catch (error) {
       console.error('Error upserting conversation:', error);
       throw error;
