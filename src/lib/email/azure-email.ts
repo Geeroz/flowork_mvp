@@ -5,60 +5,170 @@ import { generateHTMLBrief } from '@/lib/templates/html-brief-template';
 // Validate environment variables and initialize client
 let emailClient: EmailClient | null = null;
 let senderAddress = '';
+let initializationError: string | null = null;
 
-if (process.env.AZURE_COMMUNICATION_CONNECTION_STRING) {
-  emailClient = new EmailClient(process.env.AZURE_COMMUNICATION_CONNECTION_STRING);
-  senderAddress = process.env.AZURE_COMMUNICATION_SENDER_EMAIL || 'DoNotReply@flowork.azurecomm.net';
-} else if (process.env.AZURE_COMMUNICATION_KEY && process.env.AZURE_COMMUNICATION_EMAIL_ENDPOINT) {
-  // Alternative initialization with key
-  emailClient = new EmailClient(process.env.AZURE_COMMUNICATION_EMAIL_ENDPOINT, {
-    key: process.env.AZURE_COMMUNICATION_KEY
-  } as { key: string });
-  senderAddress = process.env.AZURE_COMMUNICATION_SENDER_EMAIL || 'DoNotReply@flowork.azurecomm.net';
-} else {
-  console.warn('Azure Communication Services environment variables are not configured');
+// Enhanced validation and initialization
+function initializeEmailClient() {
+  try {
+    if (process.env.AZURE_COMMUNICATION_CONNECTION_STRING) {
+      console.log('Initializing Azure Email Client with connection string...');
+      emailClient = new EmailClient(process.env.AZURE_COMMUNICATION_CONNECTION_STRING);
+      senderAddress = process.env.AZURE_COMMUNICATION_SENDER_EMAIL || 'DoNotReply@flowork.azurecomm.net';
+      console.log(`Email client initialized with sender address: ${senderAddress}`);
+    } else if (process.env.AZURE_COMMUNICATION_KEY && process.env.AZURE_COMMUNICATION_EMAIL_ENDPOINT) {
+      console.log('Initializing Azure Email Client with key and endpoint...');
+      emailClient = new EmailClient(process.env.AZURE_COMMUNICATION_EMAIL_ENDPOINT, {
+        key: process.env.AZURE_COMMUNICATION_KEY
+      } as { key: string });
+      senderAddress = process.env.AZURE_COMMUNICATION_SENDER_EMAIL || 'DoNotReply@flowork.azurecomm.net';
+      console.log(`Email client initialized with sender address: ${senderAddress}`);
+    } else {
+      const missingVars = [];
+      if (!process.env.AZURE_COMMUNICATION_CONNECTION_STRING) {
+        missingVars.push('AZURE_COMMUNICATION_CONNECTION_STRING');
+      }
+      if (!process.env.AZURE_COMMUNICATION_KEY) {
+        missingVars.push('AZURE_COMMUNICATION_KEY');
+      }
+      if (!process.env.AZURE_COMMUNICATION_EMAIL_ENDPOINT) {
+        missingVars.push('AZURE_COMMUNICATION_EMAIL_ENDPOINT');
+      }
+      
+      initializationError = `Azure Communication Services not configured. Missing environment variables: ${missingVars.join(', ')}`;
+      console.error(initializationError);
+    }
+
+    // Validate sender address format
+    if (senderAddress && !isValidEmailAddress(senderAddress)) {
+      initializationError = `Invalid sender email address format: ${senderAddress}`;
+      console.error(initializationError);
+      emailClient = null;
+    }
+  } catch (error) {
+    initializationError = `Failed to initialize Azure Email Client: ${error instanceof Error ? error.message : 'Unknown error'}`;
+    console.error(initializationError, error);
+    emailClient = null;
+  }
 }
 
-// Email sending function
+// Email validation helper
+function isValidEmailAddress(email: string): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+// Initialize on module load
+initializeEmailClient();
+
+// Retry configuration
+const RETRY_CONFIG = {
+  maxRetries: 3,
+  baseDelay: 1000, // 1 second
+  maxDelay: 10000, // 10 seconds
+  timeout: 30000,  // 30 seconds for polling
+};
+
+// Sleep utility for delays
+function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// Calculate exponential backoff delay
+function calculateDelay(attempt: number): number {
+  const delay = RETRY_CONFIG.baseDelay * Math.pow(2, attempt);
+  return Math.min(delay, RETRY_CONFIG.maxDelay);
+}
+
+// Email sending function with retry logic and timeout handling
 export async function sendBriefEmail(
   contactInfo: ContactInfo,
   brief: GeneratedBrief,
   conversationId: string
 ): Promise<{ messageId: string; status: string }> {
+  // Enhanced validation with detailed error messages
   if (!emailClient) {
-    console.error('Email client not initialized - missing Azure Communication Services configuration');
-    throw new Error('Email service not configured');
+    const errorMsg = initializationError || 'Email client not initialized - missing Azure Communication Services configuration';
+    console.error('Email client validation failed:', errorMsg);
+    throw new Error(`Email service not configured: ${errorMsg}`);
   }
 
-  try {
-    // Generate email content using the professional HTML template
-    const htmlContent = generateEmailWithBrief(brief, conversationId);
-    const plainTextContent = generateBriefEmailPlainText(brief);
-
-    const emailMessage: EmailMessage = {
-      senderAddress,
-      recipients: {
-        to: [{ address: contactInfo.email }],
-      },
-      content: {
-        subject: `Your ${brief.projectType} Project Brief - FLOWORK`,
-        html: htmlContent,
-        plainText: plainTextContent,
-      },
-    };
-
-    // Send email
-    const poller = await emailClient.beginSend(emailMessage);
-    const result = await poller.pollUntilDone();
-
-    return {
-      messageId: result.id,
-      status: result.status,
-    };
-  } catch (error) {
-    console.error('Error sending brief email:', error);
-    throw error;
+  // Validate contact email
+  if (!contactInfo.email || !isValidEmailAddress(contactInfo.email)) {
+    throw new Error(`Invalid recipient email address: ${contactInfo.email}`);
   }
+
+  // Validate sender address
+  if (!senderAddress || !isValidEmailAddress(senderAddress)) {
+    throw new Error(`Invalid sender email address: ${senderAddress}`);
+  }
+
+  let lastError: Error | unknown;
+  
+  for (let attempt = 0; attempt <= RETRY_CONFIG.maxRetries; attempt++) {
+    try {
+      console.log(`Email send attempt ${attempt + 1}/${RETRY_CONFIG.maxRetries + 1} for conversation ${conversationId}`);
+      
+      // Generate email content using the professional HTML template
+      const htmlContent = generateEmailWithBrief(brief, conversationId);
+      const plainTextContent = generateBriefEmailPlainText(brief);
+
+      const emailMessage: EmailMessage = {
+        senderAddress,
+        recipients: {
+          to: [{ address: contactInfo.email }],
+        },
+        content: {
+          subject: `Your ${brief.projectType} Project Brief - FLOWORK`,
+          html: htmlContent,
+          plainText: plainTextContent,
+        },
+      };
+
+      console.log(`Sending email to ${contactInfo.email} with subject: ${emailMessage.content.subject}`);
+
+      // Send email with timeout
+      const poller = await emailClient.beginSend(emailMessage);
+      
+      // Add timeout to polling operation
+      const result = await Promise.race([
+        poller.pollUntilDone(),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Email polling timeout')), RETRY_CONFIG.timeout)
+        )
+      ]) as { id: string; status: string };
+
+      console.log(`Email sent successfully on attempt ${attempt + 1}. Message ID: ${result.id}, Status: ${result.status}`);
+
+      return {
+        messageId: result.id,
+        status: result.status,
+      };
+    } catch (error) {
+      lastError = error;
+      console.error(`Email send attempt ${attempt + 1} failed:`, error);
+
+      // Don't retry on certain errors
+      if (error instanceof Error) {
+        if (error.message.includes('Email service not configured') ||
+            error.message.includes('Invalid email address') ||
+            error.message.includes('Authentication failed')) {
+          console.error('Non-retryable error encountered, not retrying:', error.message);
+          throw error;
+        }
+      }
+
+      // Don't wait after the last attempt
+      if (attempt < RETRY_CONFIG.maxRetries) {
+        const delay = calculateDelay(attempt);
+        console.log(`Waiting ${delay}ms before retry...`);
+        await sleep(delay);
+      }
+    }
+  }
+
+  // All retries exhausted
+  console.error(`All ${RETRY_CONFIG.maxRetries + 1} email send attempts failed for conversation ${conversationId}`);
+  throw lastError || new Error('Email sending failed after all retries');
 }
 
 // Generate email with HTML brief content
@@ -104,6 +214,7 @@ function generateEmailWithBrief(brief: GeneratedBrief, conversationId: string): 
 }
 
 // Legacy HTML email content (keeping for fallback)
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function generateBriefEmailHtml(brief: GeneratedBrief, conversationId: string): string {
   return `
 <!DOCTYPE html>

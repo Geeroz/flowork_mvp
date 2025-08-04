@@ -77,17 +77,32 @@ export async function POST(request: NextRequest) {
     );
 
     // Send email with brief
+    let emailStatus = 'failed';
+    let emailError: Error | unknown = null;
+    let emailMessageId: string | null = null;
+    
     try {
+      console.log(`Attempting to send email for conversation ${conversation.id} to ${contactInfo.email}`);
+      
       const emailResult = await sendBriefEmail(
         contactInfo as ContactInfo,
         brief as GeneratedBrief,
         conversation.id
       );
 
-      // Mark email as sent in the conversation
+      emailStatus = emailResult.status;
+      emailMessageId = emailResult.messageId;
+      
+      console.log(`Email sent successfully for conversation ${conversation.id}. Message ID: ${emailMessageId}, Status: ${emailStatus}`);
+
+      // Mark email as sent in the conversation with full tracking
       const updatedConversation = {
         ...conversation,
         emailSentAt: new Date().toISOString(),
+        emailStatus: emailStatus,
+        emailMessageId: emailMessageId,
+        emailAttempts: 1,
+        lastEmailAttempt: new Date().toISOString(),
       };
       await container.items.upsert(updatedConversation);
 
@@ -95,18 +110,45 @@ export async function POST(request: NextRequest) {
         success: true,
         conversationId: conversation.id,
         briefId: briefDoc.id,
-        emailStatus: emailResult.status,
+        emailStatus: emailStatus,
+        emailMessageId: emailMessageId,
         message: 'Brief saved and email sent successfully',
       });
-    } catch (emailError) {
-      console.error('Email sending failed:', emailError);
-      // Still return success but note email failure
+    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      emailError = error;
+      console.error(`Email sending failed for conversation ${conversation.id}:`, error);
+      
+      // Get detailed error information
+      const errorDetails = {
+        message: error instanceof Error ? error.message : 'Unknown error',
+        name: error instanceof Error ? error.name : 'UnknownError',
+        stack: error instanceof Error ? error.stack : undefined,
+        timestamp: new Date().toISOString(),
+      };
+      
+      // Track failed email attempt in conversation
+      try {
+        const failedConversation = {
+          ...conversation,
+          emailStatus: 'failed',
+          emailError: errorDetails,
+          emailAttempts: 1,
+          lastEmailAttempt: new Date().toISOString(),
+        };
+        await container.items.upsert(failedConversation);
+      } catch (dbError) {
+        console.error('Failed to update conversation with email failure:', dbError);
+      }
+      
+      // Still return success but note email failure with detailed info
       return NextResponse.json({
         success: true,
         conversationId: conversation.id,
         briefId: briefDoc.id,
         emailStatus: 'failed',
-        message: 'Brief saved successfully, but email delivery failed. We will retry later.',
+        emailError: errorDetails.message,
+        message: 'Brief saved successfully, but email delivery failed. Our team will follow up manually within 24 hours.',
       });
     }
   } catch (error) {
