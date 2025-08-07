@@ -25,7 +25,7 @@ export function Navbar() {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="text-2xl font-bold text-neutral-700">
-              Flowork
+              Flowork <span className='text-sm font-light text-neutral-500'>beta</span>
             </Link>
           </div>
 

@@ -5,6 +5,55 @@ All notable changes to the FLOWORK AI Brief Generator will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2025-08-07
+
+### Added
+- **About Page with Video Portfolio**
+  - Complete About page with hero section and company description
+  - Professional video gallery showcasing freelancer portfolio work
+  - Grid layout with hover effects and play button overlays
+  - Modal video playback with YouTube and Vimeo support
+  - Categorized portfolio pieces (Design Excellence, Development, Marketing)
+  
+- **Brand Identity Enhancements**
+  - Added "beta" label to Flowork branding in navbar
+  - Enhanced hero section with bold emphasis on key terms
+  - Larger font sizes for improved visual impact
+  - Professional three-column services grid with tight line spacing
+
+### Improved
+- **Video Playback System**
+  - Replaced React Player with reliable iframe embeds
+  - Native YouTube/Vimeo embed URLs with autoplay functionality  
+  - Simplified modal implementation without complex player state
+  - Automatic video URL conversion to embed format
+  - Enhanced keyboard navigation with Escape key support
+
+- **Page Layout and UX**
+  - Video gallery positioned after hero section for immediate impact
+  - Alternating background sections for better visual hierarchy
+  - Responsive design optimized for all device sizes
+  - Clean modal overlay with backdrop blur effects
+
+### Fixed
+- **Video Player Reliability Issues**
+  - Eliminated React Player TypeScript errors and playback failures
+  - Fixed "play() request interrupted" errors with iframe approach
+  - Resolved video thumbnail loading with proper error fallbacks
+  - Removed complex video lifecycle management dependencies
+
+- **Build and Performance**
+  - Clean TypeScript compilation with no warnings or errors
+  - Optimized bundle sizes by removing unnecessary React Player dependency
+  - Proper Next.js image optimization for video thumbnails
+
+### Technical Improvements
+- **Component Architecture**
+  - Reusable Footer component extracted for consistency
+  - VideoGallery component with proper TypeScript interfaces
+  - Dynamic navbar highlighting based on current route
+  - Modular section-based page structure
+
 ## [1.5.0] - 2025-08-07
 
 ### Added

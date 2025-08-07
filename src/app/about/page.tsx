@@ -70,15 +70,15 @@ export default function AboutPage() {
       {/* Main content */}
       <main className="flex-1 pt-16">
         {/* Hero Section */}
-        <section className="py-16">
+        <section className="py-6 md:py-12">
           <div className="container mx-auto px-4 max-w-4xl">
-            <h1 className="text-4xl md:text-6xl font-bold text-neutral-700 mb-8">
+            <h1 className="text-5xl md:text-6xl font-bold text-neutral-700 mb-8">
               About
             </h1>
-            <p className="text-xl md:text-2xl text-gray-500 leading-relaxed max-w-4xl mx-auto">
-              At Flowork, we believe great work happens when everyone&apos;s in their flow state. 
-              Clients flow through project delivery without friction. Freelancers flow through 
-              creative work without commission fees. Everything just... flows.
+            <p className="text-3xl md:text-4xl text-gray-500 leading-tight max-w-4xl mx-auto">
+              At <span className='font-bold text-neutral-600'>Flowork</span>, we believe great work happens when everyone&apos;s in their <span className='font-bold text-neutral-600'>flow state</span>. 
+              Clients flow through project delivery without <span className='font-bold text-neutral-600'>friction</span>. Freelancers flow through 
+              creative work <span className='font-bold text-neutral-600'>without commission fees</span>. Everything just... <span className='font-bold text-neutral-600'>flows</span>.
             </p>
           </div>
         </section>
