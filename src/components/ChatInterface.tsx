@@ -65,7 +65,7 @@ export function ChatInterface({
   
   return (
     <div className="min-h-screen bg-neutral-50">
-      <div className="container mx-auto px-4 py-8 max-w-3xl">
+      <div className="container mx-auto px-2 py-8 max-w-3xl">
         {/* Progress */}
         <div className="mb-8">
           <div className="flex justify-between items-center mb-2">
@@ -78,29 +78,29 @@ export function ChatInterface({
         </div>
         
         {/* Chat Messages */}
-        <Card className="shadow-2xl border border-neutral-400/30 bg-neutral-300 backdrop-blur mb-4">
-          <CardContent className="p-6">
+        <Card className="bg-neutral-200 mb-4 border-none shadow-none">
+          <CardContent className="py-2">
             <div className="space-y-4 max-h-[500px] overflow-y-auto">
               {messages.map((message) => (
                 <div
                   key={message.id}
                   className={cn(
-                    "flex gap-3",
+                    "flex gap-2",
                     message.role === 'user' ? "justify-end" : "justify-start"
                   )}
                 >
                   {message.role === 'assistant' && (
-                    <div className="w-8 h-8 rounded-full bg-neutral-400/50 flex items-center justify-center flex-shrink-0">
-                      <Bot className="w-5 h-5 text-sky-500" />
+                    <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0">
+                      <Bot className="w-5 h-5 text-white" />
                     </div>
                   )}
                   
                   <div
                     className={cn(
-                      "max-w-[80%] rounded-lg p-4",
+                      "max-w-[80%] rounded-lg px-4 py-2",
                       message.role === 'user'
                         ? "bg-sky-500 text-neutral-900"
-                        : "bg-neutral-50/70 text-neutral-900"
+                        : "bg-neutral-50 text-neutral-900"
                     )}
                   >
                     {message.role === 'assistant' ? (
@@ -111,15 +111,15 @@ export function ChatInterface({
                   </div>
                   
                   {message.role === 'user' && (
-                    <div className="w-8 h-8 rounded-full bg-neutral-400/50 flex items-center justify-center flex-shrink-0">
-                      <User className="w-5 h-5 text-neutral-600" />
+                    <div className="w-8 h-8 rounded-full bg-orange-400 flex items-center justify-center flex-shrink-0">
+                      <User className="w-5 h-5 text-white" />
                     </div>
                   )}
                 </div>
               ))}
               
               {isLoading && (
-                <div className="flex gap-3 justify-start">
+                <div className="flex gap-2 justify-start">
                   <div className="w-8 h-8 rounded-full bg-neutral-400/50 flex items-center justify-center">
                     <Bot className="w-5 h-5 text-sky-500" />
                   </div>
@@ -136,7 +136,7 @@ export function ChatInterface({
         
         
         {/* Input */}
-        <Card className="border border-neutral-400/30 bg-neutral-300 backdrop-blur">
+        <Card className="border border-neutral-400/30 bg-neutral-200 backdrop-blur">
           <CardContent className="p-4">
             <form onSubmit={handleSubmit}>
               {/* First Row: Input Field */}
