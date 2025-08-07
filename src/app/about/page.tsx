@@ -83,8 +83,24 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Our Service Section */}
+        {/* Examples of Our Work Section */}
         <section className="py-16 bg-neutral-100">
+          <div className="container mx-auto px-4 max-w-6xl">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-neutral-700 mb-4">
+                Examples of Our Work
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Portfolio pieces created by our freelancers across design, development, and marketing projects
+              </p>
+            </div>
+            
+            <VideoGallery videos={portfolioVideos} />
+          </div>
+        </section>
+
+        {/* Our Service Section */}
+        <section className="py-16">
           <div className="container mx-auto px-4 max-w-4xl">
             <h2 className="text-3xl md:text-4xl font-bold text-neutral-700 mb-8">
               Our Service
@@ -99,7 +115,7 @@ export default function AboutPage() {
         </section>
 
         {/* Services Grid Section */}
-        <section className="py-16">
+        <section className="py-16 bg-neutral-100">
           <div className="container mx-auto px-4 max-w-4xl">
             <div className="grid md:grid-cols-3 gap-8">
               {/* Design Excellence */}
@@ -141,22 +157,6 @@ export default function AboutPage() {
                 </ul>
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* Examples of Our Work Section */}
-        <section className="py-16 bg-neutral-100">
-          <div className="container mx-auto px-4 max-w-6xl">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-neutral-700 mb-4">
-                Examples of Our Work
-              </h2>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Portfolio pieces created by our freelancers across design, development, and marketing projects
-              </p>
-            </div>
-            
-            <VideoGallery videos={portfolioVideos} />
           </div>
         </section>
 
