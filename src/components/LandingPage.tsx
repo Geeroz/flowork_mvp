@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ArrowUp, Sparkles, Clock, FileText } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
+import { Navbar } from '@/components/Navbar';
 
 interface LandingPageProps {
   onStartChat: (initialPrompt: string) => void;
@@ -20,141 +21,116 @@ export function LandingPage({ onStartChat }: LandingPageProps) {
   };
   
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-950 to-indigo-800 animate-gradient">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Get Your Professional Project Brief
-          </h1>
-        </div>
-        
-        {/* Popular project types */}
-        <div className="mt-6 mb-6 text-center">
-          <p className="text-gray-300 mb-4">Popular project types:</p>
-          <div className="flex flex-wrap justify-center gap-3">
-            {[
-              'Video Production',
-              'Social Media Content',
-              'Website Development',
-              'Marketing Campaign',
-              'TikTok Clip',
-              'Restaurant Video',
-              'Brand Identity'
-            ].map((type) => (
-              <button
-                key={type}
-                onClick={() => setPrompt(`I need help with ${type.toLowerCase()}`)}
-                className="px-4 py-2 bg-gray-700 hover:bg-black/80 rounded-full text-sm text-gray-200 transition-colors duration-300"
-              >
-                {type}
-              </button>
-            ))}
+    <div className="min-h-screen bg-neutral-50 flex flex-col">
+      <Navbar />
+      
+      {/* Main content - centered vertically */}
+      <div className="flex-1 flex items-center justify-center pt-16">
+        <div className="container mx-auto px-4 max-w-4xl">
+          {/* Header */}
+          <div className="mb-12 text-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-neutral-700 mb-4">
+              Flowork
+            </h1>
+            <p className="text-xl text-gray-400 mb-2">
+              An AI-powered managed freelance platform that guarantees project delivery. Simply describe what you need, and we handle everything with the top 10% of vetted freelancers
+            </p>
+          </div>
+
+          {/* Popular project types */}
+          <div className="mb-8 text-center">
+            <p className="text-gray-500 mb-4">Popular project types:</p>
+            <div className="flex flex-wrap justify-center gap-3">
+              {[
+                'Video Production',
+                'Social Media Content',
+                'Website Development',
+                'Marketing Campaign',
+                'TikTok Clip',
+                'Restaurant Video',
+                'Brand Identity'
+              ].map((type) => (
+                <button
+                  key={type}
+                  onClick={() => setPrompt(`I need help with ${type.toLowerCase()}`)}
+                  className="px-4 py-2 bg-neutral-400 hover:bg-black/80 rounded-full text-sm text-gray-200 transition-colors duration-300"
+                >
+                  {type}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Main Input */}
+          <Card className="shadow-2xl border border-neutral-400/30 bg-neutral-300 backdrop-blur">
+            <CardContent className="p-4">
+              <form onSubmit={handleSubmit}>
+                {/* First Row: Input Field */}
+                <div className="mb-4">
+                  <input
+                    id="project-input"
+                    type="text"
+                    value={prompt}
+                    onChange={(e) => setPrompt(e.target.value)}
+                    placeholder="Start your flow here..."
+                    className="w-full px-6 py-4 text-lg bg-neutral-50 border border-neutral-400/50 text-neutral-900 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none placeholder:text-gray-400"
+                    autoFocus
+                  />
+                </div>
+                
+                {/* Second Row: Button */}
+                <div className="flex justify-end">
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className={`px-2 transition-all duration-200 ${
+                      prompt.trim() 
+                        ? 'hover:bg-sky-600 hover:border-sky-600' 
+                        : 'opacity-50 cursor-not-allowed'
+                    }`}
+                    disabled={!prompt.trim()}
+                  >
+                    <span className={`transition-colors duration-200 ${
+                      prompt.trim() ? 'text-white' : 'text-gray-500'
+                    }`}>
+                      Get My Brief
+                    </span>
+                    <div className={`ml-2 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
+                      prompt.trim() 
+                        ? 'bg-white hover:bg-white' 
+                        : 'bg-gray-200'
+                    }`}>
+                      <ArrowUp strokeWidth={3} className={`h-8 w-8 transition-colors duration-200 ${
+                        prompt.trim() ? 'text-black' : 'text-gray-800'
+                      }`} />
+                    </div>
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+          
+          {/* Tagline */}
+          <div className="text-center mt-12">
+            <h1 className='text-6xl md:text-8xl font-bold text-neutral-300 mb-6'>
+              Just Describe.<br />
+              We Deliver.
+            </h1>
           </div>
         </div>
+      </div>
 
-        {/* Main Input */}
-        <Card className="shadow-2xl border border-gray-700/30 bg-black/80 backdrop-blur">
-          <CardContent className="p-4">
-            <form onSubmit={handleSubmit}>
-              {/* <label htmlFor="project-input" className="block text-lg font-medium mb-4 text-white">
-                What kind of creative work do you need?
-              </label> */}
-              
-              {/* First Row: Input Field */}
-              <div className="mb-4">
-                <input
-                  id="project-input"
-                  type="text"
-                  value={prompt}
-                  onChange={(e) => setPrompt(e.target.value)}
-                  // placeholder="e.g., I need a new website for my restaurant..."
-                  placeholder="What can I create for you?"
-                  className="w-full px-6 py-4 text-lg bg-black/80 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none placeholder:text-gray-400"
-                  autoFocus
-                />
-              </div>
-              
-              {/* Second Row: Button */}
-              <div className="flex justify-end">
-                <Button
-                  type="submit"
-                  size="lg"
-                  className={`px-2 transition-all duration-200 ${
-                    prompt.trim() 
-                      ? 'hover:bg-sky-600 hover:border-sky-600' 
-                      : 'opacity-50 cursor-not-allowed'
-                  }`}
-                  disabled={!prompt.trim()}
-                >
-                  <span className={`transition-colors duration-200 ${
-                    prompt.trim() ? 'text-white' : 'text-gray-300'
-                  }`}>
-                    Get My Brief
-                  </span>
-                  <div className={`ml-2 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
-                    prompt.trim() 
-                      ? 'bg-white hover:bg-white' 
-                      : 'bg-gray-400'
-                  }`}>
-                    <ArrowUp strokeWidth={3} className={`h-8 w-8 transition-colors duration-200 ${
-                      prompt.trim() ? 'text-black' : 'text-gray-800'
-                    }`} />
-                  </div>
-                </Button>
-              </div>
-            </form>
-            
-            {/* <div className="mt-6 text-center">
-              <p className="text-sm text-gray-400">
-                Used by 500+ businesses in Thailand
-              </p>
-            </div> */}
-          </CardContent>
-        </Card>
-        
-        <div className="text-center mt-12 mb-12">
-          <p className="text-xl text-gray-300 mb-2">
-            AI-powered discovery interviews that capture every detail
+      {/* Footer - pinned to bottom */}
+      <footer className="bg-neutral-50 border-t border-neutral-200/30 py-6">
+        <div className="container mx-auto px-4 max-w-4xl text-center">
+          <p className="text-xl text-gray-300 mb-4">
+            Describe. Relax. Delivered.
           </p>
           <p className="text-sm text-gray-400">
             By FLOWORK - Thailand&apos;s Premium Creative Talent Marketplace
           </p>
         </div>
-
-        {/* Value Props */}
-        <div className="grid md:grid-cols-3 gap-6 mt-12">
-          <Card className="border border-gray-700/30 bg-black/50 backdrop-blur">
-            <CardContent className="p-6 text-center">
-              <Clock className="w-10 h-10 text-sky-500 mx-auto mb-3" />
-              <h3 className="font-semibold mb-2 text-white">15-20 Minutes</h3>
-              <p className="text-sm text-gray-300">
-                From idea to comprehensive brief in record time
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card className="border border-gray-700/30 bg-black/50 backdrop-blur">
-            <CardContent className="p-6 text-center">
-              <Sparkles className="w-10 h-10 text-sky-500 mx-auto mb-3" />
-              <h3 className="font-semibold mb-2 text-white">AI-Guided Process</h3>
-              <p className="text-sm text-gray-300">
-                Expert questions that ensure nothing is missed
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card className="border border-gray-700/30 bg-black/50 backdrop-blur">
-            <CardContent className="p-6 text-center">
-              <FileText className="w-10 h-10 text-sky-500 mx-auto mb-3" />
-              <h3 className="font-semibold mb-2 text-white">Professional Output</h3>
-              <p className="text-sm text-gray-300">
-                Ready to share with stakeholders or vendors
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+      </footer>
     </div>
   );
 }

@@ -11,7 +11,7 @@ interface MarkdownMessageProps {
 
 export function MarkdownMessage({ content, className = "" }: MarkdownMessageProps) {
   return (
-    <div className={`markdown-content prose prose-invert max-w-none prose-sm ${className}`}>
+    <div className={`markdown-content prose max-w-none prose-sm ${className}`}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
@@ -19,7 +19,7 @@ export function MarkdownMessage({ content, className = "" }: MarkdownMessageProp
           a: ({ href, children }) => (
             <a 
               href={href} 
-              className="text-sky-400 hover:text-sky-300 underline transition-colors" 
+              className="text-sky-600 hover:text-sky-700 underline transition-colors" 
               target="_blank" 
               rel="noopener noreferrer"
             >
@@ -31,11 +31,11 @@ export function MarkdownMessage({ content, className = "" }: MarkdownMessageProp
           code: ({ className, children }) => {
             const isInline = !className;
             return isInline ? (
-              <code className="bg-black/50 px-1.5 py-0.5 rounded text-sm text-sky-300 font-mono">
+              <code className="bg-neutral-200 px-1.5 py-0.5 rounded text-sm text-neutral-900 font-mono">
                 {children}
               </code>
             ) : (
-              <code className="block bg-black/50 p-3 rounded-lg text-sm overflow-x-auto text-gray-100 font-mono">
+              <code className="block bg-neutral-200 p-3 rounded-lg text-sm overflow-x-auto text-neutral-900 font-mono">
                 {children}
               </code>
             );
@@ -43,7 +43,7 @@ export function MarkdownMessage({ content, className = "" }: MarkdownMessageProp
           
           // Custom blockquote styling
           blockquote: ({ children }) => (
-            <blockquote className="border-l-4 border-sky-500 pl-4 italic text-gray-300 my-4">
+            <blockquote className="border-l-4 border-sky-500 pl-4 italic text-neutral-600 my-4">
               {children}
             </blockquote>
           ),
@@ -51,18 +51,18 @@ export function MarkdownMessage({ content, className = "" }: MarkdownMessageProp
           // Custom table styling
           table: ({ children }) => (
             <div className="overflow-x-auto my-4">
-              <table className="min-w-full border border-gray-600 rounded-lg">
+              <table className="min-w-full border border-neutral-400 rounded-lg">
                 {children}
               </table>
             </div>
           ),
           th: ({ children }) => (
-            <th className="border border-gray-600 px-3 py-2 bg-black/50 font-semibold text-left text-white">
+            <th className="border border-neutral-400 px-3 py-2 bg-neutral-200 font-semibold text-left text-neutral-900">
               {children}
             </th>
           ),
           td: ({ children }) => (
-            <td className="border border-gray-600 px-3 py-2 text-gray-100">
+            <td className="border border-neutral-400 px-3 py-2 text-neutral-900">
               {children}
             </td>
           ),
@@ -82,7 +82,7 @@ export function MarkdownMessage({ content, className = "" }: MarkdownMessageProp
             </ol>
           ),
           li: ({ children }) => (
-            <li className="text-gray-100 leading-relaxed">
+            <li className="text-neutral-900 leading-relaxed">
               {children}
             </li>
           ),

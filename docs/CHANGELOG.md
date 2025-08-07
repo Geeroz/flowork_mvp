@@ -5,6 +5,54 @@ All notable changes to the FLOWORK AI Brief Generator will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2025-08-07
+
+### Added
+- **Navigation Bar System**
+  - Fixed navbar with menu items: Flowork, About, Policy, FAQ, Freelance Register, Login
+  - Mobile-responsive hamburger menu with smooth transitions
+  - Transparent background with backdrop blur effect
+  - Proper Next.js Link components for client-side routing
+
+- **Enhanced Landing Page Layout**
+  - Vertically centered main content area with flexbox layout
+  - Pinned footer at bottom of screen with clean border separator
+  - Improved responsive design for all screen sizes
+  - Professional spacing and visual hierarchy
+
+- **Unified Light Theme Design**
+  - Complete neutral color palette across all components
+  - Consistent `bg-neutral-50` backgrounds with `text-neutral-900` text
+  - Card components using `bg-neutral-300` with subtle borders
+  - Sky-500/600 accent colors for interactive elements
+
+### Improved
+- **ChatInterface Visual Consistency**
+  - Updated from dark gradient theme to match landing page neutrals
+  - All text colors converted to dark neutral variants
+  - Message bubbles with improved contrast and readability
+  - Progress indicators and status elements using consistent styling
+
+- **Markdown Rendering**
+  - All markdown text colors updated to dark neutral variants
+  - Code blocks and inline code with neutral backgrounds
+  - Tables, links, and blockquotes using appropriate contrast ratios
+  - List markers and numbering with darker sky variants
+  - Removed `prose-invert` for proper light theme compatibility
+
+### Fixed
+- **Color Consistency Issues**
+  - Eliminated all remaining light text colors on light backgrounds
+  - Fixed markdown styling conflicts between chat and landing pages
+  - Proper contrast ratios for accessibility compliance
+  - Consistent button and form element styling
+
+### Changed
+- Landing page layout from top-aligned to vertically centered
+- Navigation from simple header to comprehensive navbar system
+- Theme from mixed dark/light to unified neutral light theme
+- Footer positioning from inline content to pinned bottom
+
 ## [1.4.0] - 2025-01-04
 
 ### Added

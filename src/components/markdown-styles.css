@@ -17,7 +17,7 @@
   content: counter(list-counter) ". ";
   position: absolute;
   left: 0;
-  color: #38bdf8;
+  color: #0284c7;
   font-weight: 600;
 }
 
@@ -46,5 +46,5 @@
 }
 
 .markdown-content ul > li::marker {
-  color: #38bdf8;
+  color: #0284c7;
 }

@@ -64,13 +64,13 @@ export function ChatInterface({
   
   
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-950 to-indigo-800 animate-gradient">
+    <div className="min-h-screen bg-neutral-50">
       <div className="container mx-auto px-4 py-8 max-w-3xl">
         {/* Progress */}
         <div className="mb-8">
           <div className="flex justify-between items-center mb-2">
-            <h2 className="text-xl font-semibold text-white">Creating Your Brief</h2>
-            <span className="text-sm text-gray-400">
+            <h2 className="text-xl font-semibold text-neutral-700">Creating Your Brief</h2>
+            <span className="text-sm text-gray-500">
               Step {currentStep + 1} of {totalSteps}
             </span>
           </div>
@@ -78,7 +78,7 @@ export function ChatInterface({
         </div>
         
         {/* Chat Messages */}
-        <Card className="shadow-2xl border border-gray-700/30 bg-black/80 backdrop-blur mb-4">
+        <Card className="shadow-2xl border border-neutral-400/30 bg-neutral-300 backdrop-blur mb-4">
           <CardContent className="p-6">
             <div className="space-y-4 max-h-[500px] overflow-y-auto">
               {messages.map((message) => (
@@ -90,7 +90,7 @@ export function ChatInterface({
                   )}
                 >
                   {message.role === 'assistant' && (
-                    <div className="w-8 h-8 rounded-full bg-black/50 flex items-center justify-center flex-shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-neutral-400/50 flex items-center justify-center flex-shrink-0">
                       <Bot className="w-5 h-5 text-sky-500" />
                     </div>
                   )}
@@ -99,8 +99,8 @@ export function ChatInterface({
                     className={cn(
                       "max-w-[80%] rounded-lg p-4",
                       message.role === 'user'
-                        ? "bg-sky-500 text-white"
-                        : "bg-black/70 text-gray-100"
+                        ? "bg-sky-500 text-neutral-900"
+                        : "bg-neutral-50/70 text-neutral-900"
                     )}
                   >
                     {message.role === 'assistant' ? (
@@ -111,8 +111,8 @@ export function ChatInterface({
                   </div>
                   
                   {message.role === 'user' && (
-                    <div className="w-8 h-8 rounded-full bg-black/50 flex items-center justify-center flex-shrink-0">
-                      <User className="w-5 h-5 text-gray-200" />
+                    <div className="w-8 h-8 rounded-full bg-neutral-400/50 flex items-center justify-center flex-shrink-0">
+                      <User className="w-5 h-5 text-neutral-600" />
                     </div>
                   )}
                 </div>
@@ -120,10 +120,10 @@ export function ChatInterface({
               
               {isLoading && (
                 <div className="flex gap-3 justify-start">
-                  <div className="w-8 h-8 rounded-full bg-black/50 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-full bg-neutral-400/50 flex items-center justify-center">
                     <Bot className="w-5 h-5 text-sky-500" />
                   </div>
-                  <div className="bg-black/70 rounded-lg p-4">
+                  <div className="bg-neutral-50/70 rounded-lg p-4">
                     <Loader2 className="w-5 h-5 animate-spin text-sky-500" />
                   </div>
                 </div>
@@ -136,7 +136,7 @@ export function ChatInterface({
         
         
         {/* Input */}
-        <Card className="border border-gray-700/30 bg-black/80 backdrop-blur">
+        <Card className="border border-neutral-400/30 bg-neutral-300 backdrop-blur">
           <CardContent className="p-4">
             <form onSubmit={handleSubmit}>
               {/* First Row: Input Field */}
@@ -147,7 +147,7 @@ export function ChatInterface({
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="Type your answer... (Shift+Enter for new line)"
-                  className="w-full px-6 py-4 text-lg bg-black/80 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none placeholder:text-gray-400 resize-none min-h-[56px] max-h-32"
+                  className="w-full px-6 py-4 text-lg bg-neutral-50 border border-neutral-400/50 text-neutral-900 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none placeholder:text-gray-400 resize-none min-h-[56px] max-h-32"
                   disabled={isLoading}
                   rows={1}
                   style={{
@@ -175,20 +175,20 @@ export function ChatInterface({
                   disabled={!input.trim() || isLoading}
                 >
                   <span className={`transition-colors duration-200 ${
-                    input.trim() && !isLoading ? 'text-white' : 'text-gray-300'
+                    input.trim() && !isLoading ? 'text-neutral-900' : 'text-gray-500'
                   }`}>
                     {isLoading ? 'Sending...' : 'Send'}
                   </span>
                   <div className={`ml-2 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
                     input.trim() && !isLoading
-                      ? 'bg-white hover:bg-white' 
-                      : 'bg-gray-400'
+                      ? 'bg-neutral-50 hover:bg-neutral-50' 
+                      : 'bg-gray-200'
                   }`}>
                     {isLoading ? (
-                      <Loader2 className="h-4 w-4 animate-spin text-gray-800" />
+                      <Loader2 className="h-4 w-4 animate-spin text-neutral-900" />
                     ) : (
                       <ArrowUp strokeWidth={3} className={`h-8 w-8 transition-colors duration-200 ${
-                        input.trim() ? 'text-black' : 'text-gray-800'
+                        input.trim() ? 'text-neutral-900' : 'text-gray-800'
                       }`} />
                     )}
                   </div>
@@ -200,7 +200,7 @@ export function ChatInterface({
         
         {isLoading && onStop && (
           <div className="mt-2 text-center">
-            <Button variant="ghost" size="sm" onClick={onStop} className="text-gray-400 hover:text-gray-200">
+            <Button variant="ghost" size="sm" onClick={onStop} className="text-gray-500 hover:text-neutral-700">
               Stop generating
             </Button>
           </div>
