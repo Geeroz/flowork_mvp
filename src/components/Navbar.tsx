@@ -1,15 +1,17 @@
 "use client";
 
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   const menuItems = [
-    { name: 'Flowork', href: '/', current: true },
+    { name: 'Flowork', href: '/' },
     { name: 'About', href: '/about' },
     { name: 'Policy', href: '/policy' },
     { name: 'FAQ', href: '/faq' },
@@ -30,19 +32,22 @@ export function Navbar() {
           {/* Desktop Menu */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
-              {menuItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
-                    item.current
-                      ? 'text-neutral-700 bg-neutral-200/50'
-                      : 'text-gray-500 hover:text-neutral-700 hover:bg-neutral-200/30'
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              ))}
+              {menuItems.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                      isActive
+                        ? 'text-neutral-700 bg-neutral-200/50'
+                        : 'text-gray-500 hover:text-neutral-700 hover:bg-neutral-200/30'
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                );
+              })}
             </div>
           </div>
 
@@ -76,19 +81,22 @@ export function Navbar() {
         {isOpen && (
           <div className="md:hidden border-t border-neutral-200/30">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-neutral-50/95">
-              {menuItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${
-                    item.current
-                      ? 'text-neutral-700 bg-neutral-200/50'
-                      : 'text-gray-500 hover:text-neutral-700 hover:bg-neutral-200/30'
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              ))}
+              {menuItems.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className={`block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${
+                      isActive
+                        ? 'text-neutral-700 bg-neutral-200/50'
+                        : 'text-gray-500 hover:text-neutral-700 hover:bg-neutral-200/30'
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                );
+              })}
               <div className="pt-2 border-t border-neutral-200/30 mt-2">
                 <Button
                   variant="outline"
