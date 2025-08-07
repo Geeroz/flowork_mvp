@@ -8,21 +8,21 @@ import { VideoGallery } from '@/components/VideoGallery';
 const portfolioVideos = [
   {
     id: 1,
-    title: "Modern Logo Design Process",
-    url: "https://www.youtube.com/watch?v=7WxSFa2mfFU",
-    category: "Design Excellence"
+    title: "Visa XB1",
+    url: "https://vimeo.com/1099575755",
+    category: "TV Commercial"
   },
   {
     id: 2,
-    title: "E-commerce Website Development",
-    url: "https://vimeo.com/1048439326",
-    category: "Development"
+    title: "Visa EDS",
+    url: "https://vimeo.com/1108108946",
+    category: "TV Commercial"
   },
   {
     id: 3,
     title: "In-Store Restaurant Signage",
     url: "https://youtu.be/_6a10Zk8TlM",
-    category: "In-Store Menu"
+    category: "CafeSlash"
   },
   {
     id: 4,
@@ -32,14 +32,14 @@ const portfolioVideos = [
   },
   {
     id: 5,
-    title: "Social Media Content Series",
-    url: "https://www.youtube.com/watch?v=7WxSFa2mfFU",
+    title: "Honda Beat",
+    url: "https://vimeo.com/868916264",
     category: "Content & Marketing"
   },
   {
     id: 6,
-    title: "Corporate Video Production",
-    url: "https://vimeo.com/1048439326",
+    title: "Ronaldo - Tested to the Limit",
+    url: "https://vimeo.com/868916052",
     category: "Content & Marketing"
   },
   {
@@ -56,9 +56,9 @@ const portfolioVideos = [
   },
   {
     id: 9,
-    title: "Technical Integration Demo",
-    url: "https://www.youtube.com/watch?v=7WxSFa2mfFU",
-    category: "Development"
+    title: "LazLook",
+    url: "https://vimeo.com/867468416",
+    category: "Social Media Content"
   }
 ];
 
