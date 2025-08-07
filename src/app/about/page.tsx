@@ -20,15 +20,15 @@ const portfolioVideos = [
   },
   {
     id: 3,
-    title: "Brand Identity Campaign",
-    url: "https://www.youtube.com/watch?v=7WxSFa2mfFU",
-    category: "Marketing"
+    title: "In-Store Restaurant Signage",
+    url: "https://youtu.be/_6a10Zk8TlM",
+    category: "In-Store Menu"
   },
   {
     id: 4,
-    title: "Restaurant Mobile App",
-    url: "https://vimeo.com/1048439326",
-    category: "Development"
+    title: "Ai Generated Video",
+    url: "https://youtu.be/n_JhlvLPwhg",
+    category: "Ai Video"
   },
   {
     id: 5,
@@ -44,15 +44,15 @@ const portfolioVideos = [
   },
   {
     id: 7,
-    title: "Web UI/UX Design",
-    url: "https://www.youtube.com/watch?v=7WxSFa2mfFU",
-    category: "Design Excellence"
+    title: "Cinemagraph",
+    url: "https://youtu.be/1g07o_8kOtY",
+    category: "Cinemagraph"
   },
   {
     id: 8,
-    title: "Marketing Strategy Case Study",
-    url: "https://vimeo.com/1048439326",
-    category: "Marketing"
+    title: "TV Commercial Finishing",
+    url: "https://youtu.be/dwsfOdW1_E0",
+    category: "TV Commercial"
   },
   {
     id: 9,
