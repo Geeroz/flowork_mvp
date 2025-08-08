@@ -42,6 +42,19 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Custom Flowork brand colors
+        flowork: {
+          50: '#DDECF6',   // Very light blue - backgrounds, subtle accents
+          100: '#C5DDF0',  // Interpolated for better gradient
+          200: '#9BCBE5',  // Light blue - hover states, light elements  
+          300: '#7DB7D5',  // Interpolated for smoother transitions
+          400: '#5BA3C6',  // Medium blue - primary elements, buttons
+          500: '#4C91B2',  // Interpolated between 400 and 600
+          600: '#387EA2',  // Dark blue - text, active states
+          700: '#2A6685',  // Interpolated for more granular control
+          800: '#184E6F',  // Very dark blue - headings, emphasis
+          900: '#123A52',  // Even darker for maximum contrast
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
