@@ -6,6 +6,17 @@ module.exports = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  safelist: [
+    // Ensure flowork colors are always included in build
+    'text-flowork-50', 'text-flowork-100', 'text-flowork-200', 'text-flowork-300', 'text-flowork-400', 
+    'text-flowork-500', 'text-flowork-600', 'text-flowork-700', 'text-flowork-800', 'text-flowork-900',
+    'bg-flowork-50', 'bg-flowork-100', 'bg-flowork-200', 'bg-flowork-300', 'bg-flowork-400',
+    'bg-flowork-500', 'bg-flowork-600', 'bg-flowork-700', 'bg-flowork-800', 'bg-flowork-900',
+    'border-flowork-50', 'border-flowork-100', 'border-flowork-200', 'border-flowork-300', 'border-flowork-400',
+    'border-flowork-500', 'border-flowork-600', 'border-flowork-700', 'border-flowork-800', 'border-flowork-900',
+    'hover:bg-flowork-400', 'hover:bg-flowork-500', 'hover:bg-flowork-600', 'hover:text-flowork-600',
+    'focus:ring-flowork-400', 'focus:border-flowork-400'
+  ],
   theme: {
     extend: {
       colors: {
@@ -44,16 +55,16 @@ module.exports = {
         },
         // Custom Flowork brand colors
         flowork: {
-          50: '#DDECF6',   // Very light blue - backgrounds, subtle accents
-          100: '#C5DDF0',  // Interpolated for better gradient
-          200: '#9BCBE5',  // Light blue - hover states, light elements  
-          300: '#7DB7D5',  // Interpolated for smoother transitions
-          400: '#5BA3C6',  // Medium blue - primary elements, buttons
-          500: '#4C91B2',  // Interpolated between 400 and 600
-          600: '#387EA2',  // Dark blue - text, active states
-          700: '#2A6685',  // Interpolated for more granular control
-          800: '#184E6F',  // Very dark blue - headings, emphasis
-          900: '#123A52',  // Even darker for maximum contrast
+          '50': '#DDECF6',   // Very light blue - backgrounds, subtle accents
+          '100': '#C5DDF0',  // Interpolated for better gradient
+          '200': '#9BCBE5',  // Light blue - hover states, light elements  
+          '300': '#7DB7D5',  // Interpolated for smoother transitions
+          '400': '#5BA3C6',  // Medium blue - primary elements, buttons
+          '500': '#4C91B2',  // Interpolated between 400 and 600
+          '600': '#387EA2',  // Dark blue - text, active states
+          '700': '#2A6685',  // Interpolated for more granular control
+          '800': '#184E6F',  // Very dark blue - headings, emphasis
+          '900': '#123A52',  // Even darker for maximum contrast
         },
       },
       borderRadius: {
