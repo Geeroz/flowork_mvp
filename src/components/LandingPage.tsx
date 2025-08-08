@@ -110,7 +110,7 @@ export function LandingPage({ onStartChat }: LandingPageProps) {
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     placeholder="Start your flow here..."
-                    className="w-full px-6 py-4 text-lg bg-neutral-50 border border-neutral-400/50 text-neutral-900 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none placeholder:text-gray-400"
+                    className="w-full px-6 py-4 text-lg bg-neutral-50 border border-neutral-400 text-neutral-900 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none placeholder:text-gray-400"
                     autoFocus
                   />
                 </div>
@@ -120,22 +120,22 @@ export function LandingPage({ onStartChat }: LandingPageProps) {
                   <Button
                     type="submit"
                     size="lg"
-                    className={`px-2 transition-all duration-200 ${
+                    className={`pl-3 pr-2 transition-all duration-200 bg-neutral-400 ${
                       prompt.trim() 
                         ? 'hover:bg-sky-600 hover:border-sky-600' 
-                        : 'opacity-50 cursor-not-allowed'
+                        : 'cursor-not-allowed'
                     }`}
                     disabled={!prompt.trim()}
                   >
                     <span className={`transition-colors duration-200 ${
-                      prompt.trim() ? 'text-white' : 'text-gray-500'
+                      prompt.trim() ? 'text-white' : 'text-neutral-200'
                     }`}>
                       Get My Brief
                     </span>
                     <div className={`ml-2 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
                       prompt.trim() 
                         ? 'bg-white hover:bg-white' 
-                        : 'bg-gray-200'
+                        : 'bg-gray-100'
                     }`}>
                       <ArrowUp strokeWidth={3} className={`h-8 w-8 transition-colors duration-200 ${
                         prompt.trim() ? 'text-black' : 'text-gray-800'

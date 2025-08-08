@@ -77,8 +77,8 @@ export default function AboutPage() {
             </h1>
             <p className="text-3xl md:text-4xl text-gray-500 leading-tight max-w-4xl mx-auto">
               At <span className='font-bold text-neutral-600'>Flowork</span>, we believe great work happens when everyone&apos;s in their <span className='font-bold text-neutral-600'>flow state</span>. 
-              Clients flow through project delivery without <span className='font-bold text-neutral-600'>friction</span>. Freelancers flow through 
-              creative work <span className='font-bold text-neutral-600'>without commission fees</span>. Everything just... <span className='font-bold text-neutral-600'>flows</span>.
+              Clients flow through project delivery <span className='font-bold text-neutral-600'>without friction</span>. Freelancers flow through 
+              creative work without commission fees. <span className='font-bold text-neutral-600'>Everything just... flows</span>.
             </p>
           </div>
         </section>
