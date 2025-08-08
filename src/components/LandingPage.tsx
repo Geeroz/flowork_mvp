@@ -149,7 +149,7 @@ export function LandingPage({ onStartChat }: LandingPageProps) {
           
           {/* Tagline */}
           <div className="text-center mt-12">
-            <h1 className='text-6xl md:text-8xl font-bold text-neutral-300 mb-6'>
+            <h1 className='text-6xl md:text-8xl font-bold text-flowork-400 mb-6'>
               Just Describe.<br />
               We Deliver.
             </h1>

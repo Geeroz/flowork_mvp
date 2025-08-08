@@ -5,6 +5,67 @@ All notable changes to the FLOWORK AI Brief Generator will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.0] - 2025-08-07
+
+### Added
+- **Custom Flowork Brand Color Palette**
+  - Complete 10-shade color system in Tailwind config (flowork-50 to flowork-900)
+  - Brand colors: #DDECF6 (lightest) to #184E6F (darkest) with interpolated gradients
+  - Consistent brand identity across all components with flowork-* utility classes
+  - Usage examples: bg-flowork-400, text-flowork-800, border-flowork-200
+
+- **Comprehensive Policy Page**
+  - Complete legal documentation at /policy route with 8 major sections
+  - Terms of Service, Privacy Policy, Refund & Cancellation Policy
+  - Prominent BETA disclaimer with amber warning styling
+  - Professional typography hierarchy and structured content layout
+  - Code of conduct, dispute resolution, and liability limitations
+
+- **Interactive FAQ Page**
+  - 40+ questions organized by category with accordion functionality
+  - Only one answer expanded at a time with smooth animations
+  - Plus/minus icons with 180-degree rotation on expand/collapse
+  - Categories: General, For Clients, For Freelancers, Pricing, Project Management
+  - 300ms smooth transitions with max-height and opacity effects
+
+- **Expandable Popular Project Types**
+  - Landing page project types section starts collapsed for cleaner design
+  - Toggle button with ChevronDown icon that rotates when expanded
+  - Smooth expand/collapse animations preserving existing functionality
+  - Better focus on main input while maintaining quick project type access
+
+### Improved
+- **Navbar Logo Integration**
+  - Replaced "Flowork" text with professional logo image (flowork_logo.webp)
+  - Logo sized at 84x22px (30% smaller than original) for optimal proportion
+  - Beta text aligned to bottom baseline of logo with text-xs sizing
+  - Next.js Image component with priority loading and optimization
+
+- **Brand Consistency**
+  - Tagline now uses flowork-400 color for brand consistency
+  - Enhanced About page hero copy with flow state messaging
+  - Input field borders refined for better contrast and accessibility
+  - Button colors and hover states improved across components
+
+- **Content and Messaging**
+  - Restored original About page hero with "flow state" concept emphasis
+  - Updated video portfolio with premium brand content (Visa, Honda, Ronaldo)
+  - Enhanced project type examples for better user guidance
+  - Professional video showcase with diverse creative categories
+
+### Technical Improvements
+- **Design System**
+  - Custom Tailwind color palette enables consistent brand application
+  - Proper HTML entity escaping for quotes and special characters
+  - Improved animation timing and easing functions across components
+  - Responsive design maintained across all new components
+
+- **Component Architecture**
+  - Reusable accordion pattern with smooth state management
+  - Modular FAQ data structure for easy content management
+  - Consistent styling patterns across Policy, FAQ, and About pages
+  - Optimized bundle sizes and clean TypeScript compilation
+
 ## [1.6.0] - 2025-08-07
 
 ### Added
