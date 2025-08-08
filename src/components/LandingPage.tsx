@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ArrowUp } from 'lucide-react';
+import { ArrowUp, ChevronDown } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 
@@ -13,6 +13,7 @@ interface LandingPageProps {
 
 export function LandingPage({ onStartChat }: LandingPageProps) {
   const [prompt, setPrompt] = useState('');
+  const [showProjectTypes, setShowProjectTypes] = useState(false);
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,36 +30,71 @@ export function LandingPage({ onStartChat }: LandingPageProps) {
       <div className="flex-1 flex items-center justify-center pt-16">
         <div className="container mx-auto px-4 max-w-4xl">
           {/* Header */}
-          <div className="mb-12 text-center">
+          {/* <div className="mb-12 text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-neutral-700 mb-4">
               Flowork
             </h1>
             <p className="text-xl text-gray-400 mb-2">
               An AI-powered managed freelance platform that guarantees project delivery. Simply describe what you need, and we handle everything with the top 10% of vetted freelancers
             </p>
+          </div> */}
+
+          {/* Hero Section */}
+        <section className="py-6 md:py-12">
+          <div className="container mx-auto px-4 max-w-4xl">
+            <h1 className="text-5xl md:text-6xl font-bold text-neutral-700 mb-8">
+              Flowork
+            </h1>
+            <p className="text-3xl md:text-4xl text-gray-500 leading-tight max-w-4xl mx-auto">
+              {/* At <span className='font-bold text-neutral-600'>Flowork</span>, we believe great work happens when everyone&apos;s in their <span className='font-bold text-neutral-600'>flow state</span>. 
+              Clients flow through project delivery without <span className='font-bold text-neutral-600'>friction</span>. Freelancers flow through 
+              creative work <span className='font-bold text-neutral-600'>without commission fees</span>. Everything just... <span className='font-bold text-neutral-600'>flows</span>. */}
+              An <span className='font-bold text-neutral-600'>AI-powered</span> managed freelance platform that <span className='font-bold text-neutral-600'>guarantees</span> project delivery. Simply describe what you need, and we handle everything with the <span className='font-bold text-neutral-600'>top 10%</span> of vetted freelancers
+            </p>
           </div>
+        </section>
+
 
           {/* Popular project types */}
           <div className="mb-8 text-center">
-            <p className="text-gray-500 mb-4">Popular project types:</p>
-            <div className="flex flex-wrap justify-center gap-3">
-              {[
-                'Video Production',
-                'Social Media Content',
-                'Website Development',
-                'Marketing Campaign',
-                'TikTok Clip',
-                'Restaurant Video',
-                'Brand Identity'
-              ].map((type) => (
-                <button
-                  key={type}
-                  onClick={() => setPrompt(`I need help with ${type.toLowerCase()}`)}
-                  className="px-4 py-2 bg-neutral-400 hover:bg-black/80 rounded-full text-sm text-gray-200 transition-colors duration-300"
-                >
-                  {type}
-                </button>
-              ))}
+            <button
+              onClick={() => setShowProjectTypes(!showProjectTypes)}
+              className="flex items-center justify-center mx-auto mb-4 text-gray-500 hover:text-neutral-700 transition-colors duration-200 focus:outline-none focus:text-neutral-700"
+            >
+              <span className="mr-2">Popular project types</span>
+              <ChevronDown 
+                className={`w-4 h-4 transition-transform duration-200 ${
+                  showProjectTypes ? 'rotate-180' : ''
+                }`} 
+              />
+            </button>
+            
+            <div 
+              className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                showProjectTypes 
+                  ? 'max-h-32 opacity-100' 
+                  : 'max-h-0 opacity-0'
+              }`}
+            >
+              <div className="flex flex-wrap justify-center gap-3">
+                {[
+                  'Video Production',
+                  'Social Media Content',
+                  'Website Development',
+                  'Marketing Campaign',
+                  'TikTok Clip',
+                  'Restaurant Video',
+                  'Brand Identity'
+                ].map((type) => (
+                  <button
+                    key={type}
+                    onClick={() => setPrompt(`I need help with ${type.toLowerCase()}`)}
+                    className="px-4 py-2 bg-neutral-400 hover:bg-black/80 rounded-full text-sm text-gray-200 transition-colors duration-300"
+                  >
+                    {type}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
