@@ -29,9 +29,9 @@ export function Navbar() {
               <Image
                 src="/images/flowork_logo.webp"
                 alt="Flowork"
-                width={120}
-                height={32}
-                className="h-8 w-auto"
+                width={84}
+                height={22}
+                className="h-6 w-auto"
                 priority
               />
               <span className='ml-2 text-sm font-light text-neutral-500'>beta</span>
