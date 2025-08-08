@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
 
@@ -24,8 +25,16 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="text-2xl font-bold text-neutral-700">
-              Flowork <span className='text-sm font-light text-neutral-500'>beta</span>
+            <Link href="/" className="flex items-center">
+              <Image
+                src="/images/flowork_logo.webp"
+                alt="Flowork"
+                width={120}
+                height={32}
+                className="h-8 w-auto"
+                priority
+              />
+              <span className='ml-2 text-sm font-light text-neutral-500'>beta</span>
             </Link>
           </div>
 
